@@ -1,0 +1,11 @@
+{
+  "name": "leetcode assistant",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "persistent": true,
+    "page": "pages/background.html"
+  },
+  "action": {},
+  "author": "wudaxue123@gmail.com"
+}

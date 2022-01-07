@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@types/node": "^17.0.8",
+    "vite-plugin-chrome-extension": "^0.0.7"
+  }
+}
