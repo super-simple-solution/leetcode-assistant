@@ -7,6 +7,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "ant-design-vue": "^2.2.8",
+    "axios": "^0.24.0",
+    "vite-plugin-chrome-extension": "^0.0.7",
+    "vite-plugin-components": "^0.13.3",
     "vue": "^3.2.25"
   },
   "devDependencies": {
