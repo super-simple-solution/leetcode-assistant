@@ -8,13 +8,10 @@
 
 <script setup>
 import { $$ } from '@/utils'
-
-const list = $$('.content-list>li,.content-list>div>li').map(item => ({
+import { ref } from 'vue'
+let list = ref([])
+list.value = $$('[role="rowgroup"]>[ role="row"]').map(item => ({
   show: true,
   dom: item
 }))
-return {
-  list: reactive(list)
-}
-console.log(11)
 </script>
