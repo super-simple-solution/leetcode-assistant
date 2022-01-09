@@ -11,7 +11,7 @@ export function $$(el, context) {
 export function getAttrs(el) {
   let res = {}
   for (let key in el.attributes) {
-    if (+key !== key) {
+    if (isNaN(+key)) {
       res[key] = el.attributes[key].value
     }
   }
