@@ -6,7 +6,10 @@ const patterns = {
   list: {
     match: /problemset/,
     handler() {
-      list('[role="rowgroup"]')
+      setTimeout(() => {
+        let listContainer = '[role="rowgroup"], .reactable-data'
+        list(listContainer)
+      }, 3000)
     }
   },
   detail: {
