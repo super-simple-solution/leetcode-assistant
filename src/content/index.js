@@ -1,15 +1,13 @@
+import { domMutation, getEle } from '@/utils'
 import list from './batch'
-
 const locationHref = window.location.href
 
 const patterns = {
   list: {
     match: /problemset/,
     handler() {
-      setTimeout(() => {
-        let listContainer = '[role="rowgroup"], .reactable-data'
-        list(listContainer)
-      }, 3000)
+      let listContainer = '[role="rowgroup"], .reactable-data'
+      domMutation(getEle('.question-list-hr+div'), () => list(listContainer))
     }
   },
   detail: {
@@ -28,4 +26,4 @@ function matchUrl() {
   }
 }
 
-matchUrl()
+setTimeout(matchUrl, 500)

@@ -1,4 +1,5 @@
 import ViteComponents, { AntDesignVueResolver } from 'vite-plugin-components'
+import livereload from 'rollup-plugin-livereload'
 import {
   resolve
 } from "path"
@@ -19,6 +20,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: "src/manifest.json",
+      plugins: [
+        livereload('dist')
+      ]
     },
   },
   plugins: [

@@ -17,3 +17,14 @@ export function getAttrs(el) {
   }
   return res
 }
+
+export function domMutation(targetNode, cb) {
+  let observer
+  const cbFun = function() {
+    cb()
+    observer.disconnect()
+  }
+  observer = new MutationObserver(cbFun)
+  const config = { childList: true, subtree: true }
+  observer.observe(targetNode, config)
+}

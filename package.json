@@ -16,6 +16,7 @@
     "eslint": "^8.6.0",
     "eslint-plugin-vue": "^8.2.0",
     "prettier": "^2.5.1",
+    "rollup-plugin-livereload": "^2.0.5",
     "vite": "^2.7.2",
     "vite-plugin-chrome-extension": "^0.0.7",
     "vite-plugin-components": "^0.13.3",

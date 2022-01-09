@@ -7,7 +7,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
-    '@vue/prettier'
+    'prettier'
   ],
   "rules": {
     "vetur.validation.template": false,
