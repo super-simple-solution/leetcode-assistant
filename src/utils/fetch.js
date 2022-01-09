@@ -19,7 +19,7 @@ var service = axios.create({
 service.interceptors.response.use(
   response => {
     let data = response.data
-    return data.question
+    return data.data.question
   },
   error => {
     return Promise.reject(error)
