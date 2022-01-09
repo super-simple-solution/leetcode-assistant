@@ -1,9 +1,4 @@
-console.log('--')
-import { vueInit } from './batch'
-
-function injectMunual() {
-  injectScript(chrome.extension.getURL('/js/inject.js'), 'body')
-}
+import list from './batch'
 
 const locationHref = window.location.href
 
@@ -11,7 +6,7 @@ const patterns = {
   list: {
     match: /problemset/,
     handler() {
-      vueInit('[role="rowgroup"]')
+      list('[role="rowgroup"]')
     }
   },
   detail: {
@@ -19,6 +14,7 @@ const patterns = {
     handler() {}
   },
 }
+
 function matchUrl() {
   for (let key in patterns) {
     let curPattern = patterns[key]

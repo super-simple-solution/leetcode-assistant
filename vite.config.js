@@ -8,19 +8,21 @@ import {
 import {
   chromeExtension
 } from "vite-plugin-chrome-extension"
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   resolve: {
     alias: {
-      "@": resolve(__dirname, "src"),
+      "@": resolve(__dirname, "./src"),
     },
   },
   build: {
     rollupOptions: {
-      input: "src/manifest.json"
+      input: "src/manifest.json",
     }
   },
   plugins: [
+    vue(),
     chromeExtension(),
     ViteComponents({
       customComponentResolvers: [AntDesignVueResolver()],
