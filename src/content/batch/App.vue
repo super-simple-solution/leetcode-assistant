@@ -1,69 +1,76 @@
 <template>
   <div class="relative" v-for="(item, index) in list" :key="index">
     <component :is="item.tag"  v-bind="item.attrs" v-html="item.dom"></component>
-    <a-button type="primary" size="small" class="absolute top-0 right-0" @click="showDrawer(item, index)">描述</a-button>
+    <a-button type="primary" size="small" class="absolute top-0 right-0" @click="showDesc(item, index)">描述</a-button>
   </div>
   <a-drawer
-      :title="list[curIndex || 0].info.questionFullName"
+      :title="curQuestionName"
       placement="left"
       :closable="false"
-      :visible="visible"
+      v-model:visible="descVisible"
       width="800"
-      @close="onClose"
     >
-      <a-button type="primary" size="small" @click="showSolution">Two-level drawer</a-button>
-      <p v-html="list[curIndex || 0].data.desc"></p>
+      <p v-html="curDesc"></p>
+      <a-button type="primary" size="small" @click="showSolution">题解</a-button>
+      <a-drawer
+          v-model:visible="solutionVisible"
+          title="题解"
+          placement="left"
+          width="600"
+          :closable="false"
+        >
+          <p v-html="curSolution"></p>
+        </a-drawer>
     </a-drawer>
 </template>
 
 <script setup>
-import { desc } from '@/api'
-import { ref } from 'vue'
+import apiMap from '@/api'
+import { ref, computed, defineProps } from 'vue'
 
 const props = defineProps({
   list: Array,
 })
 
-console.log(props.list, 312432)
+let descVisible = ref(false)
+let solutionVisible = ref(false)
+let curIndex = ref()
 
-let visible = ref(false)
-let curIndex = ref(null)
-
-const showDrawer = (item, index) => {
+const showDesc = (item, index) => {
   curIndex.value = index
+  console.log(item.data, 'item.data')
   if (item.data.desc) {
-    visible.value = true
+    descVisible.value = true
   } else {
-    desc({
+    apiMap.desc({
       questionName: item.info.questionName
     }).then(res => {
       console.log(res, 'res')
       item.data.desc = res.content
       item.info.questionId = res.questionId
-      visible.value = true
+      descVisible.value = true
     })
   }
 }
 
 const showSolution = () => {
-  let   = curIndex.value
-  if (item.data.desc) {
-    visible.value = true
+  console.log(curItem, 'curItem')
+  console.log(curItem?.value, 'curItem value')
+  if (curSolution) {
+    solutionVisible.value = true
   } else {
-    desc({
-      questionName: item.info.questionName
+    apiMap.solution({
+      questionName: curItem.info.questionName
     }).then(res => {
       console.log(res, 'res')
-      item.data.desc = res.content
-      item.info.questionId = res.questionId
-      visible.value = true
+      curItem.data.solution = res.content
+      solutionVisible.value = true
     })
   }
 }
 
-const onClose = () => visible.value = false
-
-// const curDesc = computed(() => {
-//   return list[curIndex.value].data.desc || ''
-// })
+const curItem = computed(() => props.list[curIndex.value] || {})
+const curDesc = computed(() => curItem.value.data?.desc)
+const curSolution = computed(() => curItem.value.data?.solution)
+const curQuestionName = computed(() => curItem.value.info?.questionFullName)
 </script>

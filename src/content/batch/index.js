@@ -26,14 +26,6 @@ export default function (dom) {
 
   console.log(list.length, 'list')
   const app = createApp({
-    data() {
-      return {
-        // curIndex: null,
-        // descVisible: false,
-        // solutionVisible: false,
-        list,
-      }
-    },
     ...App,
     props: ['list'],
   }, {
