@@ -7,7 +7,7 @@ const patterns = {
     match: /problemset/,
     handler() {
       let listContainer = '[role="rowgroup"], .reactable-data'
-      domMutation(getEle('.question-list-hr+div'), () => list(listContainer))
+      domMutation(getEle('.question-list-hr+div, [role="table"]'), () => list(listContainer))
     }
   },
   detail: {
