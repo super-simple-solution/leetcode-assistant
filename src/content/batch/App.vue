@@ -16,18 +16,18 @@
     </a-drawer>
 </template>
 
-<script>
-export default {
-  setup() {
-
-  },
-}
-import { Drawer } from 'ant-design-vue'
+<script setup>
 import { desc } from '@/api'
-import {  computed, ref } from 'vue'
+import { ref } from 'vue'
+
+const props = defineProps({
+  list: Array,
+})
+
+console.log(props.list, 312432)
 
 let visible = ref(false)
-let curIndex = ref()
+let curIndex = ref(null)
 
 const showDrawer = (item, index) => {
   curIndex.value = index
@@ -61,9 +61,7 @@ const showSolution = () => {
   }
 }
 
-const onClose = () => {
-  visible.value = false
-}
+const onClose = () => visible.value = false
 
 // const curDesc = computed(() => {
 //   return list[curIndex.value].data.desc || ''
