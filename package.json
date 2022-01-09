@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build"
   },
   "dependencies": {
     "ant-design-vue": "^2.2.8",
@@ -16,10 +15,10 @@
     "eslint": "^8.6.0",
     "eslint-plugin-vue": "^8.2.0",
     "prettier": "^2.5.1",
-    "rollup-plugin-livereload": "^2.0.5",
     "vite": "^2.7.2",
     "vite-plugin-chrome-extension": "^0.0.7",
     "vite-plugin-components": "^0.13.3",
-    "vite-plugin-style-import": "^1.4.1"
+    "vite-plugin-style-import": "^1.4.1",
+    "vite-plugin-vue-crx3": "^1.0.8"
   }
 }

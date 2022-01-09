@@ -1,4 +1,6 @@
 import { domMutation, getEle } from '@/utils'
+import '@/style/leetcode.css'
+import '@/style/desc.css'
 import list from './batch'
 const locationHref = window.location.href
 

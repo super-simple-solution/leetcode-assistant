@@ -1,15 +1,12 @@
 import ViteComponents, { AntDesignVueResolver } from 'vite-plugin-components'
-import livereload from 'rollup-plugin-livereload'
 import {
   resolve
 } from "path"
 import {
   defineConfig
 } from "vite"
-import {
-  chromeExtension
-} from "vite-plugin-chrome-extension"
 import vue from '@vitejs/plugin-vue'
+import { chromeExtension } from "vite-plugin-chrome-extension"
 
 export default defineConfig({
   resolve: {
@@ -18,11 +15,9 @@ export default defineConfig({
     },
   },
   build: {
+    target: "es2015",
     rollupOptions: {
-      input: "src/manifest.json",
-      plugins: [
-        livereload('dist')
-      ]
+      input: "src/manifest.json"
     },
   },
   plugins: [
