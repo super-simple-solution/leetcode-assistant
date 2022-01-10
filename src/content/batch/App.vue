@@ -1,5 +1,5 @@
 <template>
-  <div class="relative" v-for="(item, index) in list" :key="index">
+  <div class="relative" v-for="(item, index) in meta.list" :key="index">
     <component :is="item.tag" v-bind="item.attrs" v-html="item.dom"></component>
     <a-button
       type="primary"
@@ -31,10 +31,17 @@
 
 <script setup>
 import apiMap from '@/api'
-import { ref, computed } from 'vue'
+let lang = location.origin.includes('leetcode-cn') ? 'zh': 'en'
+let apiMapRes = apiMap[lang]
+import { ref, computed, reactive } from 'vue'
 
-let list = props.list
-let b
+let props = defineProps({
+  list: Array
+})
+
+let meta = reactive({
+  list: props.list
+})
 
 let descVisible = ref(false)
 let solutionVisible = ref(false)
@@ -45,7 +52,7 @@ const showDesc = (item, index) => {
   if (item.data.desc) {
     descVisible.value = true
   } else {
-    apiMap.desc({
+    apiMapRes.desc({
       questionName: item.info.questionName
     }).then(res => {
       item.data.desc = res.content
@@ -60,7 +67,7 @@ const showSolution = () => {
   if (curSolution.value) {
     solutionVisible.value = true
   } else {
-    apiMap.solution({
+    apiMapRes.solution({
       questionName: curItem.value.info.questionName
     }).then(res => {
       console.log(res, 'res')  // todo
@@ -70,7 +77,7 @@ const showSolution = () => {
   }
 }
 
-const curItem = computed(() => list[curIndex.value] || {})
+const curItem = computed(() => meta.list[curIndex.value] || {})
 const curDesc = computed(() => curItem.value.data?.desc)
 const curSolution = computed(() => curItem.value.data?.solution)
 const curQuestionName = computed(() => curItem.value.info?.questionFullName)

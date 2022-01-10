@@ -2,8 +2,8 @@ import axios from 'axios'
 
 axios.defaults.withCredentials = false
 
-var service = axios.create({
-  baseURL: `https://leetcode.com/graphql`,
+let service = axios.create({
+  baseURL: `${location.origin}/graphql/`,
   timeout: 30000 // 请求超时时间
 })
 
