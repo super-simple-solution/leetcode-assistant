@@ -14,11 +14,13 @@ export default function (dom) {
       tag: item.tagName,
       data: {
         desc: '',
+        descZH: '',
         solution: ''
       },
       info: {
         questionName: link.href.match(/problems\/([^?/]+)/)[1],
         questionFullName: link.textContent,
+        questionFullNameZH: '',
         questionId: '',
       }
     }

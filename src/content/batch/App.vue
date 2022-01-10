@@ -31,9 +31,8 @@
 
 <script setup>
 import apiMap from '@/api'
-let lang = location.origin.includes('leetcode-cn') ? 'zh': 'en'
-let apiMapRes = apiMap[lang]
 import { ref, computed, reactive } from 'vue'
+let isZH = location.origin.includes('leetcode-cn')
 
 let props = defineProps({
   list: Array
@@ -52,10 +51,12 @@ const showDesc = (item, index) => {
   if (item.data.desc) {
     descVisible.value = true
   } else {
-    apiMapRes.desc({
+    apiMap.desc({
       questionName: item.info.questionName
     }).then(res => {
       item.data.desc = res.content
+      item.data.descZH = res.translatedContent
+      item.info.questionFullNameZH = res.translatedTitle
       item.info.questionId = res.questionId
       descVisible.value = true
     })
@@ -67,11 +68,11 @@ const showSolution = () => {
   if (curSolution.value) {
     solutionVisible.value = true
   } else {
-    apiMapRes.solution({
+    apiMap.solution({
       questionName: curItem.value.info.questionName
     }).then(res => {
-      console.log(res, 'res')  // todo
-      curItem.value.data.solution = res.content
+      console.log(res.solution.content, 'res')  // todo
+      curItem.value.data.solution = res.solution.content
       solutionVisible.value = true
     })
   }
