@@ -26,11 +26,7 @@
 
 <script setup>
 import apiMap from '@/api'
-import { ref, computed, defineProps } from 'vue'
-
-const props = defineProps({
-  list: Array,
-})
+import { ref, computed } from 'vue'
 
 let descVisible = ref(false)
 let solutionVisible = ref(false)
@@ -70,7 +66,7 @@ const showSolution = () => {
 }
 
 const curItem = computed(() => props.list[curIndex.value] || {})
-const curDesc = computed(() => curItem.value.data?.desc)
-const curSolution = computed(() => curItem.value.data?.solution)
-const curQuestionName = computed(() => curItem.value.info?.questionFullName)
+const curDesc = computed(() => curItem.data?.desc)
+const curSolution = computed(() => curItem.data?.solution)
+const curQuestionName = computed(() => curItem.info?.questionFullName)
 </script>
