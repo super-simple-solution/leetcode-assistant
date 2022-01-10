@@ -31,8 +31,12 @@
 
 <script setup>
 import apiMap from '@/api'
+import showdown from 'showdown'
 import { ref, computed, reactive } from 'vue'
 let isZH = location.origin.includes('leetcode-cn')
+
+let converter = new showdown.Converter()
+converter.setOption('tasklists', true)
 
 let props = defineProps({
   list: Array
@@ -71,8 +75,13 @@ const showSolution = () => {
     apiMap.solution({
       questionName: curItem.value.info.questionName
     }).then(res => {
-      console.log(res.solution.content, 'res')  // todo
-      curItem.value.data.solution = res.solution.content
+      let solution = res.solution.content || ''
+      if (solution) {
+        let solutionHTML = converter.makeHtml(solution)
+        curItem.value.data.solution = solutionHTML
+      } else {
+        curItem.value.data.solution = 'no solution'
+      }
       solutionVisible.value = true
     })
   }
