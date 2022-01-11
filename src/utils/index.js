@@ -18,12 +18,12 @@ export function getAttrs(el) {
   return res
 }
 
+import debounce from 'lodash.debounce'
 export function domMutation(targetNode, cb) {
   let observer
-  const cbFun = function() {
+  const cbFun = debounce(function() {
     cb()
-    observer.disconnect()
-  }
+  }, 1000)
   observer = new MutationObserver(cbFun)
   const config = { childList: true, subtree: true }
   observer.observe(targetNode, config)

@@ -1,4 +1,5 @@
-import ViteComponents, { AntDesignVueResolver } from 'vite-plugin-components'
+import ViteComponents from 'unplugin-vue-components/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import {
   resolve
 } from "path"
