@@ -23,6 +23,7 @@ export function domMutation(targetNode, cb) {
   let observer
   const cbFun = debounce(function() {
     cb()
+    observer.disconnect()
   }, 1000)
   observer = new MutationObserver(cbFun)
   const config = { childList: true, subtree: true }
