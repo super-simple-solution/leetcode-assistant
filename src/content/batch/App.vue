@@ -9,31 +9,44 @@
     >描述</a-button>
   </div>
   <a-drawer
-    :title="curQuestionName"
-    placement="left"
+    placement="bottom"
     :closable="false"
     v-model:visible="descVisible"
-    width="800"
+    height="600"
   >
-    <p v-html="curDesc"></p>
-    <a-button type="primary" size="small" @click="showSolution">题解</a-button>
-    <a-drawer
-      v-model:visible="solutionVisible"
-      title="题解"
-      placement="left"
-      width="600"
-      :closable="false"
-    >
-      <p v-html="curSolution"></p>
-    </a-drawer>
+    <template v-slot:title>
+      <a-row>
+        <a-col :span="12">
+          <span class="mr-20">{{ curQuestionName }}</span>
+          <a-button class="fr" type="primary" size="small" @click="showSolution">题解</a-button>
+        </a-col>
+        <a-col :span="12">
+          <span class="mr-20">{{ curQuestionName }}</span>
+          <a-button class="fr" type="primary" size="small" @click="showSolution">题解</a-button>
+        </a-col>
+      </a-row>
+    </template>
+    <a-row>
+      <a-col :span="12">
+        <p v-html="curDesc"></p>
+      </a-col>
+      <a-col :span="12">
+        <p v-html="curSolution" v-if="!isZH"></p>
+        <template v-else>
+          <solution-list :list="curSolutionList" v-if="curSolutionList.length"></solution-list>
+        </template>
+      </a-col>
+    </a-row>
   </a-drawer>
 </template>
 
 <script setup>
 import apiMap from '@/api'
 import showdown from 'showdown'
+import { parseContent } from '@/utils'
 import { ref, computed, reactive } from 'vue'
-let isZH = location.origin.includes('leetcode-cn')
+let isZH = ref(location.origin.includes('leetcode-cn'))
+import SolutionList from './solutionList.vue'
 
 let converter = new showdown.Converter()
 converter.setOption('tasklists', true)
@@ -47,7 +60,6 @@ let meta = reactive({
 })
 
 let descVisible = ref(false)
-let solutionVisible = ref(false)
 let curIndex = ref()
 
 const showDesc = (item, index) => {
@@ -58,37 +70,51 @@ const showDesc = (item, index) => {
     apiMap.desc({
       questionName: item.info.questionName
     }).then(res => {
-      item.data.desc = res.content
-      item.data.descZH = res.translatedContent
-      item.info.questionFullNameZH = res.translatedTitle
-      item.info.questionId = res.questionId
+      item.data.desc = res.question.content
+      item.data.descZH = res.question.translatedContent
+      item.info.questionFullNameZH = res.question.translatedTitle
+      item.info.questionId = res.question.questionId
       descVisible.value = true
     })
   }
 }
 
 const showSolution = () => {
-  console.log(curSolution.value, 22222)
-  if (curSolution.value) {
-    solutionVisible.value = true
-  } else {
-    apiMap.solution({
-      questionName: curItem.value.info.questionName
-    }).then(res => {
-      let solution = res.solution.content || ''
-      if (solution) {
-        let solutionHTML = converter.makeHtml(solution)
-        curItem.value.data.solution = solutionHTML
-      } else {
-        curItem.value.data.solution = 'no solution'
-      }
-      solutionVisible.value = true
-    })
+  if (!curSolution.value && !curSolutionList.value.length) {
+    if (!isZH.value) {
+      apiMap.solution({
+        questionName: curItem.value.info.questionName
+      }).then(res => {
+        let solution = res.question.solution.content || ''
+        if (solution) {
+          solution = parseContent(solution)
+          let solutionHTML = converter.makeHtml(solution)
+          curItem.value.data.solution = solutionHTML
+        } else {
+          curItem.value.data.solution = 'no solution'
+        }
+      })
+    } else {
+      apiMap.solutionList({
+        questionName: curItem.value.info.questionName
+      }).then(res => {
+        const data = res.questionSolutionArticles.edges || []
+        const solutionList = data.map(_v => ({
+          ..._v.node,
+          key: _v.node.slug,
+          resolve: '',
+          desc: _v.node.summary.slice(0, 40),
+        }))
+        curItem.value.data.solutionList = solutionList
+        console.log(solutionList, 2423)
+      })
+    }
   }
 }
 
 const curItem = computed(() => meta.list[curIndex.value] || {})
-const curDesc = computed(() => curItem.value.data?.desc)
+const curDesc = computed(() => curItem.value.data?.[isZH.value ? 'descZH' : 'desc'])
 const curSolution = computed(() => curItem.value.data?.solution)
+const curSolutionList = computed(() => curItem.value.data?.solutionList)
 const curQuestionName = computed(() => curItem.value.info?.questionFullName)
 </script>

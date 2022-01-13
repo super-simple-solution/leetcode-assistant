@@ -15,7 +15,8 @@ export default function (dom) {
       data: {
         desc: '',
         descZH: '',
-        solution: ''
+        solution: '',
+        solutionList: [], // zh
       },
       info: {
         questionName: link.href.match(/problems\/([^?/]+)/)[1],

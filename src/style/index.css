@@ -12,3 +12,10 @@
 .right-0 {
   right: 0;
 }
+
+.mr-20 {
+  margin-right: 20px;
+}
+.fr {
+  float: right;
+}
