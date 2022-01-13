@@ -20,10 +20,6 @@
           <span class="mr-20">{{ curQuestionName }}</span>
           <a-button class="fr" type="primary" size="small" @click="showSolution">题解</a-button>
         </a-col>
-        <a-col :span="12">
-          <span class="mr-20">{{ curQuestionName }}</span>
-          <a-button class="fr" type="primary" size="small" @click="showSolution">题解</a-button>
-        </a-col>
       </a-row>
     </template>
     <a-row>
