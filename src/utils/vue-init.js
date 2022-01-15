@@ -17,6 +17,5 @@ export default function (config) {
   } = config
 	div.id = config.id
 	document.body.appendChild(div)
-	console.log(div)
 	createApp(element).mount(`#${id}`)
 }

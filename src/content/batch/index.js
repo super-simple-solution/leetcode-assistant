@@ -23,11 +23,11 @@ export default function (dom) {
         questionFullName: link.textContent,
         questionFullNameZH: '',
         questionId: '',
+        titleSlug: '',
       }
     }
   })
 
-  console.log(list.length, 'list')
   const app = createApp({
     ...App,
     props: ['list'],

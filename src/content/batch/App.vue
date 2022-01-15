@@ -27,13 +27,18 @@
         <p v-html="curDesc"></p>
       </a-col>
       <a-col :span="12">
-        <template v-if="!isZH">
-          <template v-if="showEnSolution">
-            <en-solution :cur-solution="curSolution" :cur-solution-id="curItem.info.questionId"></en-solution>
-          </template>
+        <!-- en -->
+        <template v-if="!isZH && showEnSolution">
+          <en-solution
+            :cur-solution="curSolution" 
+            :cur-solution-id="curItem.info.questionId" 
+            :cur-solution-title-slug="curItem.info.titleSlug"
+            :descVisible="descVisible"
+          ></en-solution>
         </template>
-        <template v-else>
-          <solution-list :list="curSolutionList" v-if="curSolutionList.length"></solution-list>
+        <!-- zh -->
+        <template v-else-if="curSolutionList.length">
+          <zh-solution :list="curSolutionList"></zh-solution>
         </template>
       </a-col>
     </a-row>
@@ -45,7 +50,7 @@ import apiMap from '@/api'
 import showdown from 'showdown'
 import { parseContent } from '@/utils'
 import { ref, computed, reactive } from 'vue'
-import SolutionList from './solutionList.vue'
+import ZhSolution from './zhSolution.vue'
 import EnSolution from './enSolution.vue'
 
 let isZH = ref(location.origin.includes('leetcode-cn'))
@@ -76,6 +81,7 @@ const showDesc = (item, index) => {
       item.data.descZH = res.question.translatedContent
       item.info.questionFullNameZH = res.question.translatedTitle
       item.info.questionId = res.question.questionId
+      item.info.titleSlug = res.question.titleSlug
       descVisible.value = true
     })
   }
