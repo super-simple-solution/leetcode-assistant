@@ -12,7 +12,7 @@
 
 <script setup>
 import apiMap from '@/api'
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive } from 'vue'
 import { parseContent } from '@/utils'
 
 import showdown from 'showdown'
@@ -24,12 +24,12 @@ let props = defineProps({
   list: Array
 })
 
-let curIndex = ref()
 
 let meta = reactive({
   list: props.list
 })
 
+let curIndex = ref()
 const currentSolutionResolve = (index) => {
   if (index === undefined) return
   curIndex.value = index
@@ -43,6 +43,4 @@ const currentSolutionResolve = (index) => {
     })
   }
 }
-
-const curItem = computed(() => meta.list[curIndex.value] || {})
 </script>

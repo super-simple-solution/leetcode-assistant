@@ -6,6 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@vue/devtools": "^5.3.4",
     "ant-design-vue": "^2.2.8",
     "axios": "^0.24.0",
     "lodash.debounce": "^4.0.8",

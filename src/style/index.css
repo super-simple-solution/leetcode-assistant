@@ -16,6 +16,24 @@
 .mr-20 {
   margin-right: 20px;
 }
+.mr-10 {
+  margin-right: 10px;
+}
 .fr {
   float: right;
+}
+.icon-image {
+  width: 20px;
+}
+
+// flex 布局
+.flex {
+  display: flex;
+}
+.justify-between {
+  display: flex;
+  justify-content: space-between;
+}
+.align-center {
+  align-item: center;
 }

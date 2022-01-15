@@ -21,4 +21,7 @@ export default defineConfig({
       resolvers: [AntDesignVueResolver()]
     })
   ],
+  configureWebpack: {
+    devtool: "true",
+  }
 })

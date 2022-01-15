@@ -4,6 +4,11 @@ import '@/style/desc.css'
 import list from './batch'
 const locationHref = window.location.href
 
+// import devtools from '@vue/devtools'
+// if (process.env.NODE_ENV === 'development') {
+//   devtools.connect()
+// }
+
 const patterns = {
   list: {
     match: /problemset/,

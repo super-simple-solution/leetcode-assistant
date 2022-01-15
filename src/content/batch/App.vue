@@ -27,7 +27,11 @@
         <p v-html="curDesc"></p>
       </a-col>
       <a-col :span="12">
-        <p v-html="curSolution" v-if="!isZH"></p>
+        <template v-if="!isZH">
+          <template v-if="curItem.info.questionId">
+            <en-solution :cur-solution="curSolution" :cur-solution-id="curItem.info.questionId"></en-solution>
+          </template>
+        </template>
         <template v-else>
           <solution-list :list="curSolutionList" v-if="curSolutionList.length"></solution-list>
         </template>
@@ -41,8 +45,10 @@ import apiMap from '@/api'
 import showdown from 'showdown'
 import { parseContent } from '@/utils'
 import { ref, computed, reactive } from 'vue'
-let isZH = ref(location.origin.includes('leetcode-cn'))
 import SolutionList from './solutionList.vue'
+import EnSolution from './enSolution.vue'
+
+let isZH = ref(location.origin.includes('leetcode-cn'))
 
 let converter = new showdown.Converter()
 converter.setOption('tasklists', true)
@@ -76,6 +82,7 @@ const showDesc = (item, index) => {
 }
 
 const showSolution = () => {
+  console.log(343)
   if (!curSolution.value && !curSolutionList.value.length) {
     if (!isZH.value) {
       apiMap.solution({
@@ -102,7 +109,6 @@ const showSolution = () => {
           desc: _v.node.summary.slice(0, 40),
         }))
         curItem.value.data.solutionList = solutionList
-        console.log(solutionList, 2423)
       })
     }
   }
