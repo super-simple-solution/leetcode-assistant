@@ -26,7 +26,9 @@
               </a-col>
             </a-row>
           </template>
-          <p v-html="item.resolve" v-if="item.resolve"></p>
+          <a-spin :spinning="spinning">
+            <p v-html="item.resolve" v-if="item.resolve"></p>
+          </a-spin>
         </a-collapse-panel>
       </a-collapse>
     </template>
@@ -57,8 +59,10 @@ let props = defineProps({
 })
 
 let discussList = ref([])
+let spinning = ref(false)
 const handleTabChange = (key) => {
   if (key === 'discuss' && !discussList.value.length) {
+    
     // get most_votes discuss
     apiMap.discussList({ questionId: props.curSolutionId }).then(res => {
       const data = res.questionTopicsList.edges || []
@@ -68,6 +72,7 @@ const handleTabChange = (key) => {
         voteCountText: abbreviateNumber(_v.node.post.voteCount),
         viewCountText: abbreviateNumber(_v.node.viewCount)
       }))
+      
     })
   }
 }
@@ -80,10 +85,12 @@ const currentDiscussResolve = (index) => {
   let item = discussList.value[index]
   const isExist = item.resolve
   if (!isExist) {
+    spinning.value = true
     apiMap.curDiscussResolve({ topicId: item.id }).then(res => {
       let data = res.topic.post.content || ''
       data = parseContent(data)
       discussList.value[index].resolve = converter.makeHtml(data)
+      spinning.value = false
     })
   }
 }

@@ -32,9 +32,14 @@ export function domMutation(targetNode, cb) {
 
 const imgReg = new RegExp(/\(\.\.\/Figures\//g)
 const videoReg = /!\[[^\]\[]+\]\(([^)(]+\.mp4)\)/
+// const codeReg = /```(.+?)```/g
+const codeNewLineReg = /\\n/g
 export function parseContent(content, questionName) {
   if (content.match(imgReg)) {
     content = content.replace(imgReg, `(/problems/${questionName}/Figures/`)
+  }
+  if (content.match(codeNewLineReg)) {
+    content = content.replace(codeNewLineReg, '\n')
   }
   if (content.match(videoReg)) {
     content = content.replace(

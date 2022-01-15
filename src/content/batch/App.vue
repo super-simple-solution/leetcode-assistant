@@ -28,7 +28,7 @@
       </a-col>
       <a-col :span="12">
         <template v-if="!isZH">
-          <template v-if="curItem.info.questionId">
+          <template v-if="showEnSolution">
             <en-solution :cur-solution="curSolution" :cur-solution-id="curItem.info.questionId"></en-solution>
           </template>
         </template>
@@ -81,8 +81,8 @@ const showDesc = (item, index) => {
   }
 }
 
+let showEnSolution = ref(false)
 const showSolution = () => {
-  console.log(343)
   if (!curSolution.value && !curSolutionList.value.length) {
     if (!isZH.value) {
       apiMap.solution({
@@ -97,6 +97,7 @@ const showSolution = () => {
           curItem.value.data.solution = 'no solution'
         }
       })
+      showEnSolution.value = true
     } else {
       apiMap.solutionList({
         questionName: curItem.value.info.questionName
