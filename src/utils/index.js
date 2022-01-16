@@ -34,6 +34,8 @@ import katex from 'katex'
 const imgReg = new RegExp(/\(\.\.\/Figures\//g)
 const videoReg = /!\[[^\]\[]+\]\(([^)(]+\.mp4)\)/g
 const katexReg = /\$([^\$]+?)\$/g
+// markdown will not parse unicode to symbol in code element
+// TODO `45\xb0 diagonal` TO `45 ${unicode symbol} diagonal`
 const codeReg = /`(.+?)`/g
 const codeNewLineReg = /\\n/g
 export function parseContent(content, questionName) {
