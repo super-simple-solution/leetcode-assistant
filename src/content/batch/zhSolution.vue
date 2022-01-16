@@ -1,10 +1,12 @@
 <template>
   <a-collapse v-model:activeKey="activeKey" accordion expand-icon-position="right" @change="currentSolutionResolve">
-    <a-collapse-panel v-for="(item, index) in meta.list" :key="index">
+    <a-collapse-panel v-for="(item, index) in props.list" :key="index">
       <template v-slot:header>
         <span>{{ item.title }}</span>
         <p>{{ item.desc }}</p>
       </template>
+      <a :href="`https://leetcode-cn.com/problems/${props.curSolutionTitleSlug}/solution/${item.slug}`" target="_blank">查看原文</a>
+      <!-- https://leetcode-cn.com/problems/n-queens/solution/nhuang-hou-by-leetcode-solution/ -->
       <p v-html="item.resolve"></p>
     </a-collapse-panel>
   </a-collapse>
@@ -12,7 +14,7 @@
 
 <script setup>
 import apiMap from '@/api'
-import { ref, reactive } from 'vue'
+import { ref  } from 'vue'
 import { parseContent } from '@/utils'
 
 import showdown from 'showdown'
@@ -21,25 +23,25 @@ converter.setOption('tasklists', true)
 
 const activeKey = ref([])
 let props = defineProps({
+  curSolutionTitleSlug: String,
   list: Array
 })
 
-
-let meta = reactive({
-  list: props.list
-})
-
+const emit = defineEmits(['set-resolve'])
 let curIndex = ref()
 const currentSolutionResolve = (index) => {
   if (index === undefined) return
   curIndex.value = index
-  let item = meta.list[index]
+  let item = props.list[index]
   const isExist = item.resolve
   if (!isExist) {
     apiMap.curSolutionResolve({ slug: item.slug }).then(res => {
       let data = res.solutionArticle.content || ''
       data = parseContent(data)
-      item.resolve = converter.makeHtml(data)
+      emit('set-resolve', {
+        index,
+        content: converter.makeHtml(data)
+      })
     })
   }
 }

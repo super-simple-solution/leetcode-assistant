@@ -27,19 +27,31 @@
         <p v-html="curDesc"></p>
       </a-col>
       <a-col :span="12">
+      <a-spin :spinning="spinning">
         <!-- en -->
-        <template v-if="!isZH && showEnSolution">
+        <template v-if="!isZH">
+          <a-tabs v-model:activeKey="activeKey" @change="handleTabChange">
+            <a-tab-pane key="discuss" tab="Discuss"></a-tab-pane>
+            <a-tab-pane key="solution" tab="Solution"></a-tab-pane>
+          </a-tabs>
+          <p v-html="curEnSolution" v-if="activeKey == 'solution'"></p>
           <en-solution
-            :cur-solution="curSolution" 
+            v-else
             :cur-solution-id="curItem.info.questionId" 
             :cur-solution-title-slug="curItem.info.titleSlug"
-            :descVisible="descVisible"
+            :list="enDiscussList"
+            @set-resolve="setEnResolve"
           ></en-solution>
         </template>
         <!-- zh -->
-        <template v-else-if="curSolutionList.length">
-          <zh-solution :list="curSolutionList"></zh-solution>
+        <template v-else-if="zhDiscussList.length">
+          <zh-solution
+            :cur-solution-title-slug="curItem.info.titleSlug"
+            :list="zhDiscussList"
+            @set-resolve="setZhResolve"
+          ></zh-solution>
         </template>
+      </a-spin>
       </a-col>
     </a-row>
   </a-drawer>
@@ -48,7 +60,7 @@
 <script setup>
 import apiMap from '@/api'
 import showdown from 'showdown'
-import { parseContent } from '@/utils'
+import { parseContent, abbreviateNumber } from '@/utils'
 import { ref, computed, reactive } from 'vue'
 import ZhSolution from './zhSolution.vue'
 import EnSolution from './enSolution.vue'
@@ -58,6 +70,7 @@ let isZH = ref(location.origin.includes('leetcode-cn'))
 let converter = new showdown.Converter()
 converter.setOption('tasklists', true)
 
+let spinning = ref(false)
 let props = defineProps({
   list: Array
 })
@@ -87,43 +100,76 @@ const showDesc = (item, index) => {
   }
 }
 
-let showEnSolution = ref(false)
+let activeKey = ref('discuss')
 const showSolution = () => {
-  if (!curSolution.value && !curSolutionList.value.length) {
+if (!curEnSolution.value && !zhDiscussList.value.length && !enDiscussList.value.length) {
     if (!isZH.value) {
-      apiMap.solution({
-        questionName: curItem.value.info.questionName
-      }).then(res => {
-        let solution = res.question.solution.content || ''
-        if (solution) {
-          solution = parseContent(solution)
-          let solutionHTML = converter.makeHtml(solution)
-          curItem.value.data.solution = solutionHTML
-        } else {
-          curItem.value.data.solution = 'no solution'
-        }
-      })
-      showEnSolution.value = true
+      handleTabChange(activeKey.value)
     } else {
-      apiMap.solutionList({
+      spinning.value = true
+      apiMap.zhDiscussList({
         questionName: curItem.value.info.questionName
       }).then(res => {
         const data = res.questionSolutionArticles.edges || []
-        const solutionList = data.map(_v => ({
+        const discussList = data.map(_v => ({
           ..._v.node,
           key: _v.node.slug,
           resolve: '',
           desc: _v.node.summary.slice(0, 40),
         }))
-        curItem.value.data.solutionList = solutionList
+        curItem.value.data.zhDiscussList = discussList
+        spinning.value = false
       })
     }
   }
 }
 
+const handleTabChange = (key) => {
+  if (key === 'discuss') {
+    if (enDiscussList.value.length) return
+    spinning.value = true
+    apiMap.enDiscussList({ questionId:  curItem.value.info.questionId}).then(res => {
+      const data = res.questionTopicsList.edges || []
+      const discussList = data.map(_v => ({
+        ..._v.node,
+        resove: '',
+        voteCountText: abbreviateNumber(_v.node.post.voteCount),
+        viewCountText: abbreviateNumber(_v.node.viewCount),
+        title_format: _v.node.title.replace(/\s/g, '-')
+      }))
+      curItem.value.data.enDiscussList = discussList
+      spinning.value = false
+    })
+  } else {
+    if (curEnSolution.value) return
+    spinning.value = true
+    apiMap.solution({
+      questionName: curItem.value.info.questionName
+      }).then(res => {
+        let solution = res.question.solution.content || ''
+        if (solution) {
+          solution = parseContent(solution)
+          let solutionHTML = converter.makeHtml(solution)
+          curItem.value.data.enSolution = solutionHTML
+        } else {
+          curItem.value.data.enSolution = 'no solution'
+        }
+        spinning.value = false
+      })
+  }
+}
+
+function setEnResolve({ index, content }) {
+  enDiscussList.value[index].resolve = content
+}
+function setZhResolve({ index, content }) {
+  zhDiscussList.value[index].resolve = content
+}
+
 const curItem = computed(() => meta.list[curIndex.value] || {})
 const curDesc = computed(() => curItem.value.data?.[isZH.value ? 'descZH' : 'desc'])
-const curSolution = computed(() => curItem.value.data?.solution)
-const curSolutionList = computed(() => curItem.value.data?.solutionList)
+const curEnSolution = computed(() => curItem.value.data?.enSolution)
+const zhDiscussList = computed(() => curItem.value.data?.zhDiscussList)
+const enDiscussList = computed(() => curItem.value.data?.enDiscussList)
 const curQuestionName = computed(() => curItem.value.info?.questionFullName)
 </script>

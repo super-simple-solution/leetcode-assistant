@@ -26,7 +26,7 @@ const bodyGene = {
         variables: {titleSlug: questionName},
       }
     },
-    solutionList: (options) => {
+    zhDiscussList: (options) => {
       const { questionName } = options
       return {
         operationName: "questionSolutionArticles",
@@ -60,7 +60,7 @@ const bodyGene = {
         variables: {titleSlug: questionName},
       }
     },
-    discussList: (options) => {
+    enDiscussList: (options) => {
       const { questionId } = options
       return {
         operationName: "questionTopicsList",

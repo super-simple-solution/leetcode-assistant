@@ -30,9 +30,11 @@ export function domMutation(targetNode, cb) {
   observer.observe(targetNode, config)
 }
 
+import katex from 'katex'
 const imgReg = new RegExp(/\(\.\.\/Figures\//g)
-const videoReg = /!\[[^\]\[]+\]\(([^)(]+\.mp4)\)/
-// const codeReg = /```(.+?)```/g
+const videoReg = /!\[[^\]\[]+\]\(([^)(]+\.mp4)\)/g
+const katexReg = /\$([^\$]+?)\$/g
+const codeReg = /`(.+?)`/g
 const codeNewLineReg = /\\n/g
 export function parseContent(content, questionName) {
   if (content.match(imgReg)) {
@@ -40,6 +42,9 @@ export function parseContent(content, questionName) {
   }
   if (content.match(codeNewLineReg)) {
     content = content.replace(codeNewLineReg, '\n')
+  }
+  if (content.match(codeReg)) {
+    content = content.replace(codeReg, (str) => str.normalize())
   }
   if (content.match(videoReg)) {
     content = content.replace(
@@ -49,6 +54,16 @@ export function parseContent(content, questionName) {
       </video>`
     )
   }
+  if (content.match(katexReg)) {
+    content = content.replace(katexReg, (_, p1) => {
+      return katex.renderToString(p1, {
+        throwOnError: false,
+        displayMode: true,
+        output: html
+      })
+    })
+  }
+  content.replace(/\\t/g, '  ')
   return content
 }
 

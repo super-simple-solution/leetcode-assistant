@@ -1,4 +1,4 @@
-import { initEventHandler } from '@/utils/chrome-action'
+import { initEventHandler } from '@/utils/extension-action'
 
 let contentReq = {
   'question-save': questionSave,

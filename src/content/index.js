@@ -1,4 +1,5 @@
 import { domMutation, getEle } from '@/utils'
+import { injectScriptByUrl } from '@/utils/extension-action'
 import '@/style/leetcode.css'
 import '@/style/desc.css'
 import list from './batch'
@@ -8,6 +9,8 @@ const locationHref = window.location.href
 // if (process.env.NODE_ENV === 'development') {
 //   devtools.connect()
 // }
+
+// injectScriptByUrl('http://localhost:8098')
 
 const patterns = {
   list: {

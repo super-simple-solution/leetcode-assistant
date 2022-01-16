@@ -9,6 +9,7 @@
     "@vue/devtools": "^5.3.4",
     "ant-design-vue": "^2.2.8",
     "axios": "^0.24.0",
+    "katex": "^0.15.2",
     "lodash.debounce": "^4.0.8",
     "showdown": "^1.9.1",
     "vue": "^3.2.25"

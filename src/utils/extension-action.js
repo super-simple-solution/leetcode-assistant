@@ -7,6 +7,14 @@ export function injectScript(file, node) {
   th.appendChild(s)
 }
 
+export function injectScriptByUrl(url) {
+  let s = document.createElement('script')
+  s.id = chrome.runtime.id
+  s.setAttribute('type', 'text/javascript')
+  s.setAttribute('src', url)
+  document.head.appendChild(s)
+}
+
 export function injectCSS(file) {
   let head = document.head
   let s = document.createElement('link')
