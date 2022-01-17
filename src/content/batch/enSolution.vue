@@ -2,20 +2,22 @@
     <a-collapse v-model:activeKey="activeKey" accordion expand-icon-position="right" @change="currentDiscussResolve">
       <a-collapse-panel v-for="(item, index) in props.list" :key="index">
         <template v-slot:header>
-            <a-row>
-            <a-col :span="2">
+          <a-row>
+            <a-col :span="2"  class="flex aligns-item">
               <a-avatar :src="item.post.author.profile.userAvatar" class="mr-10"/>
             </a-col>
-            <a-col :span="16">{{ item.title }}</a-col>
-            <a-col :span="3">
-              <p class="flex align-center">
+            <a-col :span="16"  class="flex aligns-item">{{ item.title }}</a-col>
+            <a-col :span="3" class="flex aligns-item">
+              <p class="flex items-center">
                 <caret-up-outlined class="mr-10"/>
                 <span>{{ item.voteCountText }}</span>
               </p>
             </a-col>
-            <a-col :span="3">
-              <eye-outlined class="mr-10"/>
-              <span>{{ item.viewCountText }}</span>
+            <a-col :span="3" class="flex aligns-item">
+              <p class="flex items-center">
+                <eye-outlined class="mr-10"/>
+                <span>{{ item.viewCountText }}</span>
+              </p>
             </a-col>
           </a-row>
         </template>

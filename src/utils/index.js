@@ -61,7 +61,7 @@ export function parseContent(content, questionName) {
       return katex.renderToString(p1, {
         throwOnError: false,
         displayMode: true,
-        output: html
+        output: 'html'
       })
     })
   }
