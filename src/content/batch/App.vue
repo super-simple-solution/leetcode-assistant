@@ -18,11 +18,13 @@
       <a-row>
         <a-col :span="12">
           <span class="mr-20">{{ curQuestionName }}</span>
-          <a-button class="float-right" type="primary" size="small" @click="showSolution">题解</a-button>
+        </a-col>
+        <a-col :span="12">
+          <a-button type="primary" size="small" @click="showSolution">{{ discussTitle }}</a-button>
         </a-col>
       </a-row>
     </template>
-    <a-row>
+    <a-row :gutter="10">
       <a-col :span="12">
         <p v-html="curDesc"></p>
       </a-col>
@@ -66,6 +68,8 @@ import ZhSolution from './zhSolution.vue'
 import EnSolution from './enSolution.vue'
 
 let isZH = ref(location.origin.includes('leetcode-cn'))
+
+const discussTitle = ref(isZH.value ? '获取题解': 'Get discuss')
 
 let converter = new showdown.Converter()
 converter.setOption('tasklists', true)

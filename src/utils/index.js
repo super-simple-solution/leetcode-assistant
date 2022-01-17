@@ -31,44 +31,59 @@ export function domMutation(targetNode, cb) {
 }
 
 import katex from 'katex'
-import hljs from 'highlight.js'
+// import hljs from 'highlight.js'
+let hljs = require('highlight.js/lib/common')
 
-const regList = [{
-  name: 'img',
-  reg: new RegExp(/\(\.\.\/Figures\//g),
-  to: () => `(/problems/${questionName}/Figures/`
-}, {
-  name: 'video',
-  reg: /!\[[^\]\[]+\]\(([^)(]+\.mp4)\)/g,
-  to: (_, p1) => `<video src="//problems/${questionName}${p1}" style="width: 100%" controls="" preload="none" poster="封面">
-        <source id="mp4" src="mp4格式视频" type="video/mp4">
-      </video>`
-}, {
-  name: 'katex',
-  reg:  /\$([^\$]+?)\$/g,
-  to: (_, p1) => {
-    return katex.renderToString(p1, {
-      throwOnError: false,
-      displayMode: true,
-      output: 'html'
-    })
+
+const regList = [
+  {
+    name: 'img',
+    reg: new RegExp(/\(\.\.\/Figures\//g),
+    to: () => `(/problems/${questionName}/Figures/`
+  },
+  {
+    name: 'video',
+    reg: /!\[[^\]\[]+\]\(([^)(]+\.mp4)\)/g,
+    to: (_, p1) => `<video src="//problems/${questionName}${p1}" style="width: 100%" controls="" preload="none" poster="封面">
+          <source id="mp4" src="mp4格式视频" type="video/mp4">
+        </video>`
+  },
+  {
+    name: 'katex',
+    reg:  /\$([^\$]+?)\$/g,
+    to: (_, p1) => {
+      return katex.renderToString(p1, {
+        throwOnError: false,
+        displayMode: true,
+        output: 'html'
+      })
+    }
+  },
+  {
+    // '45\\xb0 diagonal' to '45° diagonal'
+    name: 'hex to symbol',
+    reg: /\\x(\S+)/g,
+    to: (_, p1) => String.fromCodePoint(parseInt(`00${p1}`, 16))
+  },
+  // {
+  //   // markdown will not parse unicode to symbol in code element
+  //   // TODO `45\xb0 diagonal` TO `45 ${unicode symbol} diagonal`
+  //   name: 'code',
+  //   reg: /`+([^`]+?)`+/g,
+  //   to: () => hljs.highlight
+  // },
+  {
+    name: 'newline',
+    reg: /\\n/g,
+    to:  '\n',
   }
-}, {
-  // markdown will not parse unicode to symbol in code element
-  // TODO `45\xb0 diagonal` TO `45 ${unicode symbol} diagonal`
-  name: 'code',
-  reg: /`+([^`]+?)`+/g,
-  to:  (str) => str.normalize()
-}, {
-  name: 'newline',
-  reg: /\\n/g,
-  to:  '\n',
-}]
+]
 
 export function parseContent(content, questionName) {
   regList.forEach(item => {
-    content = content.replace(item.reg, reg.to)
+    content = content.replace(item.reg, item.to)
   })
+  return content
 }
 
 
