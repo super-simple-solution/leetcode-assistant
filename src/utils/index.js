@@ -31,9 +31,42 @@ export function domMutation(targetNode, cb) {
 }
 
 import katex from 'katex'
+import hljs from 'highlight.js'
+function regHandlerListFunc(questionName, videoReg) {
+  return [{
+    name: 'img',
+    reg: new RegExp(/\(\.\.\/Figures\//g),
+    to: `(/problems/${questionName}/Figures/`
+  }, {
+    name: 'video',
+    reg: /!\[[^\]\[]+\]\(([^)(]+\.mp4)\)/g,
+    to: `<video src="//problems/${questionName}${description.match(videoReg)[1]}" style="width: 100%" controls="" preload="none" poster="封面">
+          <source id="mp4" src="mp4格式视频" type="video/mp4">
+        </video>`
+  }, {
+    name: 'katex',
+    reg:  /\$([^\$]+?)\$/g,
+    to: (_, p1) => {
+      return katex.renderToString(p1, {
+        throwOnError: false,
+        displayMode: true,
+        output: 'html'
+      })
+    }
+  }, {
+    name: 'code',
+    reg: /`+([^`]+?)`+/g,
+    to:  (str) => str.normalize()
+  }, {
+    name: 'newline',
+    reg: /\\n/g,
+    to:  '\n',
+  }]
+}
 const imgReg = new RegExp(/\(\.\.\/Figures\//g)
 const videoReg = /!\[[^\]\[]+\]\(([^)(]+\.mp4)\)/g
 const katexReg = /\$([^\$]+?)\$/g
+const codeReg = /`+([^`]+?)`+/g
 // markdown will not parse unicode to symbol in code element
 // TODO `45\xb0 diagonal` TO `45 ${unicode symbol} diagonal`
 const codeReg = /`(.+?)`/g
@@ -51,10 +84,13 @@ export function parseContent(content, questionName) {
   if (content.match(videoReg)) {
     content = content.replace(
       videoReg
-      `<video src="//problems/${questionName}${description.match(videoReg)[1]}" style="width: 100%" controls="" preload="none" poster="封面">
+      `<video src="//problems/${questionName}${content.match(videoReg)[1]}" style="width: 100%" controls="" preload="none" poster="封面">
             <source id="mp4" src="mp4格式视频" type="video/mp4">
       </video>`
     )
+  }
+  if (content.match(codeReg)) {
+
   }
   if (content.match(katexReg)) {
     content = content.replace(katexReg, (_, p1) => {
@@ -66,6 +102,7 @@ export function parseContent(content, questionName) {
     })
   }
   content.replace(/\\t/g, '  ')
+  // hljs.highlightElement(content)
   return content
 }
 

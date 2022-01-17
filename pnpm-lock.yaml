@@ -8,6 +8,7 @@ specifiers:
   axios: ^0.24.0
   eslint: ^8.6.0
   eslint-plugin-vue: ^8.2.0
+  highlight.js: ^11.4.0
   katex: ^0.15.2
   lodash.debounce: ^4.0.8
   postcss: ^8.4.5
@@ -26,6 +27,7 @@ dependencies:
   ant-design-vue: 2.2.8_vue@3.2.26
   autoprefixer: registry.npmmirror.com/autoprefixer/10.4.2_postcss@8.4.5
   axios: 0.24.0
+  highlight.js: registry.npmmirror.com/highlight.js/11.4.0
   katex: registry.npmmirror.com/katex/0.15.2
   lodash.debounce: registry.nlark.com/lodash.debounce/4.0.8
   postcss: registry.npmmirror.com/postcss/8.4.5
@@ -3978,6 +3980,13 @@ packages:
     resolution: {integrity: sha1-XkdHk/fqmEPRu5nCPu9J/xJv/zk=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/has-cors/download/has-cors-1.1.0.tgz}
     name: has-cors
     version: 1.1.0
+    dev: false
+
+  registry.npmmirror.com/highlight.js/11.4.0:
+    resolution: {integrity: sha512-nawlpCBCSASs7EdvZOYOYVkJpGmAOKMYZgZtUqSRqodZE0GRVcFKwo1RcpeOemqh9hyttTdd5wDBwHkuSyUfnA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/highlight.js/download/highlight.js-11.4.0.tgz}
+    name: highlight.js
+    version: 11.4.0
+    engines: {node: '>=12.0.0'}
     dev: false
 
   registry.npmmirror.com/http-errors/1.8.1:

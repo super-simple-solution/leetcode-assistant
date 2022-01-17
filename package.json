@@ -10,6 +10,7 @@
     "ant-design-vue": "^2.2.8",
     "autoprefixer": "^10.4.2",
     "axios": "^0.24.0",
+    "highlight.js": "^11.4.0",
     "katex": "^0.15.2",
     "lodash.debounce": "^4.0.8",
     "postcss": "^8.4.5",
