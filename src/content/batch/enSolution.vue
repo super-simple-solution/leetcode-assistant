@@ -32,16 +32,12 @@
 <script setup>
 import { ref } from 'vue'
 import apiMap from '@/api'
-import { parseContent } from '@/utils'
+import parseContent from '@/utils/md-parse'
 
 import {
   CaretUpOutlined,
   EyeOutlined,
 } from '@ant-design/icons-vue'
-
-import showdown from 'showdown'
-const converter = new showdown.Converter()
-converter.setOption('tasklists', true)
 
 let activeKey = ref([])
 
@@ -64,10 +60,9 @@ const currentDiscussResolve = (index) => {
     spinning.value = true
     apiMap.curDiscussResolve({ topicId: item.id }).then(res => {
       let data = res.topic.post.content || ''
-      data = parseContent(data)
       emit('set-resolve', {
         index,
-        content: converter.makeHtml(data)
+        content: parseContent(data)
       })
       spinning.value = false
     })

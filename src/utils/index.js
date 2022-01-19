@@ -31,9 +31,8 @@ export function domMutation(targetNode, cb) {
 }
 
 import katex from 'katex'
-// import hljs from 'highlight.js'
-let hljs = require('highlight.js/lib/common')
-
+import hljs from 'highlight.js/lib/common'
+import 'highlight.js/styles/default.css'
 
 const regList = [
   {
@@ -50,7 +49,7 @@ const regList = [
   },
   {
     name: 'katex',
-    reg:  /\$([^\$]+?)\$/g,
+    reg:  /\$+([^\$]+?)\$+/g,
     to: (_, p1) => {
       return katex.renderToString(p1, {
         throwOnError: false,
@@ -62,7 +61,7 @@ const regList = [
   {
     // '45\\xb0 diagonal' to '45° diagonal'
     name: 'hex to symbol',
-    reg: /\\x(\S+)/g,
+    reg: /\\x(\S+)/gm,
     to: (_, p1) => String.fromCodePoint(parseInt(`00${p1}`, 16))
   },
   // {

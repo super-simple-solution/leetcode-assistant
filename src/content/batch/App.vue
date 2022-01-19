@@ -61,8 +61,8 @@
 
 <script setup>
 import apiMap from '@/api'
-import showdown from 'showdown'
-import { parseContent, abbreviateNumber } from '@/utils'
+import { abbreviateNumber } from '@/utils'
+import parseContent from '@/utils/md-parse'
 import { ref, computed, reactive } from 'vue'
 import ZhSolution from './zhSolution.vue'
 import EnSolution from './enSolution.vue'
@@ -70,9 +70,6 @@ import EnSolution from './enSolution.vue'
 let isZH = ref(location.origin.includes('leetcode-cn'))
 
 const discussTitle = ref(isZH.value ? '获取题解': 'Get discuss')
-
-let converter = new showdown.Converter()
-converter.setOption('tasklists', true)
 
 let spinning = ref(false)
 let props = defineProps({
@@ -152,9 +149,7 @@ const handleTabChange = (key) => {
       }).then(res => {
         let solution = res.question.solution.content || ''
         if (solution) {
-          solution = parseContent(solution)
-          let solutionHTML = converter.makeHtml(solution)
-          curItem.value.data.enSolution = solutionHTML
+          curItem.value.data.enSolution = parseContent(solution)
         } else {
           curItem.value.data.enSolution = 'no solution'
         }

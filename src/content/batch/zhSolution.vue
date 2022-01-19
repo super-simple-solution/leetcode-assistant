@@ -15,11 +15,7 @@
 <script setup>
 import apiMap from '@/api'
 import { ref  } from 'vue'
-import { parseContent } from '@/utils'
-
-import showdown from 'showdown'
-const converter = new showdown.Converter()
-converter.setOption('tasklists', true)
+import parseContent from '@/utils/md-parse'
 
 const activeKey = ref([])
 let props = defineProps({
@@ -37,10 +33,9 @@ const currentSolutionResolve = (index) => {
   if (!isExist) {
     apiMap.curSolutionResolve({ slug: item.slug }).then(res => {
       let data = res.solutionArticle.content || ''
-      data = parseContent(data)
       emit('set-resolve', {
         index,
-        content: converter.makeHtml(data)
+        content: parseContent(data)
       })
     })
   }
