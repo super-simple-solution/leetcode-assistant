@@ -3,17 +3,17 @@
       <a-collapse-panel v-for="(item, index) in props.list" :key="index">
         <template v-slot:header>
           <a-row>
-            <a-col :span="2"  class="flex aligns-item">
+            <a-col :span="2"  class="flex items-center">
               <a-avatar :src="item.post.author.profile.userAvatar" class="mr-10"/>
             </a-col>
-            <a-col :span="16"  class="flex aligns-item">{{ item.title }}</a-col>
-            <a-col :span="3" class="flex aligns-item">
+            <a-col :span="16"  class="flex items-center">{{ item.title }}</a-col>
+            <a-col :span="3" class="flex items-center">
               <p class="flex items-center">
                 <caret-up-outlined class="mr-10"/>
                 <span>{{ item.voteCountText }}</span>
               </p>
             </a-col>
-            <a-col :span="3" class="flex aligns-item">
+            <a-col :span="3" class="flex items-center">
               <p class="flex items-center">
                 <eye-outlined class="mr-10"/>
                 <span>{{ item.viewCountText }}</span>

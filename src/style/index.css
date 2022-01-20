@@ -4,3 +4,30 @@
 .icon-image {
   width: 20px;
 }
+
+.mt-10 {
+  margin-top: 10px;
+}
+.ml-10 {
+  margin-left: 10px;
+}
+.mr-10 {
+  margin-rigth: 10px;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mr-20 {
+  margin-rigth: 20px;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+    @extend .flex;
+    align-items: center;
+}
+
