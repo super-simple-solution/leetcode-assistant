@@ -6,7 +6,7 @@
       size="small"
       class="absolute top-0 right-0"
       @click="showDesc(item, index)"
-    >描述</a-button>
+    >{{ langObj[lang].listBtn }}</a-button>
   </div>
   <a-drawer
     placement="bottom"
@@ -15,12 +15,12 @@
     height="600"
   >
     <template v-slot:title>
-      <a-row>
+      <a-row  :gutter="10">
         <a-col :span="12">
           <span class="mr-20">{{ curQuestionName }}</span>
         </a-col>
         <a-col :span="12">
-          <a-button type="primary" size="small" @click="showSolution">{{ discussTitle }}</a-button>
+          <a-button type="primary" size="small" @click="showSolution">{{  langObj[lang].discuss  }}</a-button>
         </a-col>
       </a-row>
     </template>
@@ -29,31 +29,31 @@
         <p v-html="curDesc"></p>
       </a-col>
       <a-col :span="12">
-      <a-spin :spinning="spinning">
-        <!-- en -->
-        <template v-if="!isZH">
-          <a-tabs v-model:activeKey="activeKey" @change="handleTabChange">
-            <a-tab-pane key="discuss" tab="Discuss"></a-tab-pane>
-            <a-tab-pane key="solution" tab="Solution"></a-tab-pane>
-          </a-tabs>
-          <p v-html="curEnSolution" v-if="activeKey == 'solution'"></p>
-          <en-solution
-            v-else
-            :cur-solution-id="curItem.info.questionId" 
-            :cur-solution-title-slug="curItem.info.titleSlug"
-            :list="enDiscussList"
-            @set-resolve="setEnResolve"
-          ></en-solution>
-        </template>
-        <!-- zh -->
-        <template v-else-if="zhDiscussList.length">
-          <zh-solution
-            :cur-solution-title-slug="curItem.info.titleSlug"
-            :list="zhDiscussList"
-            @set-resolve="setZhResolve"
-          ></zh-solution>
-        </template>
-      </a-spin>
+        <a-spin :spinning="spinning">
+          <!-- en -->
+          <template v-if="!isZH">
+            <a-tabs v-model:activeKey="activeKey" @change="handleTabChange">
+              <a-tab-pane :key="langObj.en.tab1.key" :tab="langObj.en.tab1.tab"></a-tab-pane>
+              <a-tab-pane :key="langObj.en.tab2.key" :tab="langObj.en.tab2.tab"></a-tab-pane>
+            </a-tabs>
+            <p v-html="curEnSolution" v-if="activeKey == langObj.en.tab2.key"></p>
+            <en-solution
+              v-else
+              :cur-solution-id="curItem.info.questionId" 
+              :cur-solution-title-slug="curItem.info.titleSlug"
+              :list="enDiscussList"
+              @set-resolve="setEnResolve"
+            ></en-solution>
+          </template>
+          <!-- zh -->
+          <template v-else-if="zhDiscussList.length">
+            <zh-solution
+              :cur-solution-title-slug="curItem.info.titleSlug"
+              :list="zhDiscussList"
+              @set-resolve="setZhResolve"
+            ></zh-solution>
+          </template>
+        </a-spin>
       </a-col>
     </a-row>
   </a-drawer>
@@ -67,14 +67,14 @@ import { ref, computed, reactive } from 'vue'
 import ZhSolution from './zhSolution.vue'
 import EnSolution from './enSolution.vue'
 
-let isZH = ref(location.origin.includes('leetcode-cn'))
+import { langEnum } from './const'
+let langObj = ref(langEnum)
 
-const discussTitle = ref(isZH.value ? '获取题解': 'Get discuss')
+let isZH = ref(location.origin.includes('leetcode-cn'))
+let lang = ref(isZH.value ? 'zh' : 'en')
 
 let spinning = ref(false)
-let props = defineProps({
-  list: Array
-})
+let props = defineProps({  list: Array })
 
 let meta = reactive({
   list: props.list
@@ -101,9 +101,9 @@ const showDesc = (item, index) => {
   }
 }
 
-let activeKey = ref('discuss')
+let activeKey = ref(langEnum.en.tab1.key)
 const showSolution = () => {
-if (!curEnSolution.value && !zhDiscussList.value.length && !enDiscussList.value.length) {
+  if (!curEnSolution.value && !zhDiscussList.value.length && !enDiscussList.value.length) {
     if (!isZH.value) {
       handleTabChange(activeKey.value)
     } else {
@@ -126,7 +126,7 @@ if (!curEnSolution.value && !zhDiscussList.value.length && !enDiscussList.value.
 }
 
 const handleTabChange = (key) => {
-  if (key === 'discuss') {
+  if (key === langEnum.en.tab1.key) {
     if (enDiscussList.value.length) return
     spinning.value = true
     apiMap.enDiscussList({ questionId:  curItem.value.info.questionId}).then(res => {

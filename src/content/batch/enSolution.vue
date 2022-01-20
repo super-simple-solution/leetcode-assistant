@@ -22,7 +22,7 @@
           </a-row>
         </template>
         <a-spin :spinning="spinning">
-          <a :href="`https://leetcode.com/problems/${props.curSolutionTitleSlug}/discuss/${item.id}/${item.title_format}`" target="_blank">查看原文</a>
+          <a :href="`https://leetcode.com/problems/${props.curSolutionTitleSlug}/discuss/${item.id}/${item.title_format}`" target="_blank">{{ langObj.en.discussLink }}</a>
           <p v-html="item.resolve" v-if="item.resolve"></p>
         </a-spin>
       </a-collapse-panel>
@@ -33,6 +33,9 @@
 import { ref } from 'vue'
 import apiMap from '@/api'
 import parseContent from '@/utils/md-parse'
+
+import { langEnum } from './const'
+let langObj = ref(langEnum)
 
 import {
   CaretUpOutlined,

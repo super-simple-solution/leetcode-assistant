@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import '@/style/index.css'
+import '@/style/antv.css'
 import { getEle, getAttrs } from '@/utils'
 
 export default function (dom) {
