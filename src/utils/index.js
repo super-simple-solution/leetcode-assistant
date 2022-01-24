@@ -102,3 +102,16 @@ export function abbreviateNumber(number){
     // format number and add suffix
     return scaled.toFixed(1) + suffix
 }
+
+
+export function createDom(tag, innerText, className) {
+  let dom = document.createElement(tag)
+  dom.innerText = innerText
+  dom.className = className
+  return dom
+}
+
+
+export function dispatchEvent(data) {
+
+}
