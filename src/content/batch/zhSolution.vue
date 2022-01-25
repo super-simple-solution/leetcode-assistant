@@ -15,7 +15,6 @@
 <script setup>
 import apiMap from '@/api'
 import { ref  } from 'vue'
-import parseContent from '@/utils/md-parse'
 
 import { langEnum } from './const'
 let langObj = ref(langEnum)
@@ -35,10 +34,9 @@ const currentSolutionResolve = (index) => {
   const isExist = item.resolve
   if (!isExist) {
     apiMap.curSolutionResolve({ slug: item.slug }).then(res => {
-      let data = res.solutionArticle.content || ''
       emit('set-resolve', {
         index,
-        content: parseContent(data)
+        content: res.solutionArticle.content || ''
       })
     })
   }

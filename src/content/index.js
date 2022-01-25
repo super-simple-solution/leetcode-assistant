@@ -25,9 +25,11 @@ const patterns = {
         if (!target.classList.contains('solution-btn')) return
           let targetItem = target.closest('[role="row"]')
           let questionName = targetItem.querySelector('a').href.match(/problems\/([^?/]+)/)[1]
+          let questionFullName = targetItem.querySelector('.truncate').textContent
           const questionEvent = new CustomEvent('click-question', {
             'detail':{
-              questionName
+              questionName,
+              questionFullName
             }
           })
           window.dispatchEvent(questionEvent)

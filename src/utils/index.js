@@ -48,6 +48,11 @@ const regList = [
         </video>`
   },
   {
+    name: 'iframe',
+    reg: /<iframe/g,
+    to: '<iframe style="max-width: 100%"'
+  },
+  {
     name: 'katex',
     reg:  /\$+([^\$]+?)\$+/g,
     to: (_, p1) => {
@@ -78,6 +83,7 @@ const regList = [
   }
 ]
 
+// questionName for closure
 export function parseContent(content, questionName) {
   regList.forEach(item => {
     content = content.replace(item.reg, item.to)
@@ -109,9 +115,4 @@ export function createDom(tag, innerText, className) {
   dom.innerText = innerText
   dom.className = className
   return dom
-}
-
-
-export function dispatchEvent(data) {
-
 }

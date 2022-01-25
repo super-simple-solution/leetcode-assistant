@@ -4,6 +4,7 @@
     :closable="false"
     v-model:visible="descVisible"
     height="600"
+    @close="reset"
   >
     <template v-slot:title>
       <a-row  :gutter="10">
@@ -60,22 +61,7 @@ import EnSolution from './enSolution.vue'
 
 import { langEnum } from './const'
 
-let metaData = reactive({
-  data: {
-    desc: '',
-    descZH: '',
-    enSolution: '',
-    zhDiscussList: [], // zh
-    enDiscussList: [], // zh
-  },
-  info: {
-    questionName: '',
-    questionFullName: '',
-    questionFullNameZH: '',
-    questionId: '',
-    titleSlug: '',
-  }
-})
+let metaData = reactive(initData())
 
 let langObj = ref(langEnum)
 
@@ -87,13 +73,15 @@ let spinning = ref(false)
 let descVisible = ref(false)
 
 onMounted(clickListener)
-
 onBeforeUnmount(() => window.removeEventListener('click-question'))
 
-
-const showDesc = (questionName) => {
-  if (!questionName) return
+const showDesc = (msg) => {
+  const {
+    questionName,
+    questionFullName,
+  } = msg
   metaData.info.questionName = questionName
+  metaData.info.questionFullName = questionFullName
   apiMap.desc({
     questionName,
   }).then(res => {
@@ -108,7 +96,7 @@ const showDesc = (questionName) => {
 
 function clickListener() {
   window.addEventListener('click-question', function (e) {
-    showDesc(e.detail.questionName)
+    showDesc(e.detail)
   }, { capture: true })
 }
 
@@ -158,9 +146,9 @@ const handleTabChange = (key) => {
     apiMap.solution({
       questionName: metaData.info.questionName
       }).then(res => {
-        let solution = res.question.solution.content || ''
+        let solution = res.question.solution?.content
         if (solution) {
-          metaData.data.enSolution = parseContent(solution)
+          metaData.data.enSolution = parseContent(solution, metaData.info.questionName)
         } else {
           metaData.data.enSolution = 'no solution'
         }
@@ -170,10 +158,10 @@ const handleTabChange = (key) => {
 }
 
 function setEnResolve({ index, content }) {
-  enDiscussList.value[index].resolve = content
+  enDiscussList.value[index].resolve = parseContent(content, metaData.info.questionName)
 }
 function setZhResolve({ index, content }) {
-  zhDiscussList.value[index].resolve = content
+  zhDiscussList.value[index].resolve = parseContent(content, metaData.info.questionName)
 }
 
 const curDesc = computed(() => metaData.data?.[isZH.value ? 'descZH' : 'desc'])
@@ -182,4 +170,26 @@ const zhDiscussList = computed(() => metaData.data?.zhDiscussList)
 const enDiscussList = computed(() => metaData.data?.enDiscussList)
 const curQuestionName = computed(() => metaData.info?.questionFullName)
 
+function reset() {
+  Object.assign(metaData, initData())
+}
+
+function initData() {
+  return {
+    data: {
+      desc: '',
+      descZH: '',
+      enSolution: '',
+      zhDiscussList: [], // zh
+      enDiscussList: [], // zh
+    },
+    info: {
+      questionName: '',
+      questionFullName: '',
+      questionFullNameZH: '',
+      questionId: '',
+      titleSlug: '',
+    }
+  }
+}
 </script>

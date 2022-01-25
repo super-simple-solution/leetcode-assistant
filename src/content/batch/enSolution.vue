@@ -32,7 +32,6 @@
 <script setup>
 import { ref } from 'vue'
 import apiMap from '@/api'
-import parseContent from '@/utils/md-parse'
 
 import { langEnum } from './const'
 let langObj = ref(langEnum)
@@ -62,10 +61,9 @@ const currentDiscussResolve = (index) => {
   if (!isExist) {
     spinning.value = true
     apiMap.curDiscussResolve({ topicId: item.id }).then(res => {
-      let data = res.topic.post.content || ''
       emit('set-resolve', {
         index,
-        content: parseContent(data)
+        content: res.topic.post.content || ''
       })
       spinning.value = false
     })
