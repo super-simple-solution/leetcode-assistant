@@ -20,9 +20,11 @@ const patterns = {
       let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"]'))
 
       nodeList.forEach((item, index) => {
-        item.children[2].classList.add("solution-btn-parent")
-        item.children[2].appendChild(createDom('button', '获取题解', 'solution-btn'))
-        item.children[2].onclick = function() {
+        let parentNode = item.children[2]
+
+        parentNode.classList.add("solution-btn-parent")
+        parentNode.appendChild(createDom('button', '获取题解', 'solution-btn'))
+        parentNode.onclick = function() {
           console.log('index', index)
         }
 
