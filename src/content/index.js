@@ -1,5 +1,4 @@
-import { domMutation, getEle, createDom } from '@/utils'
-import { injectScriptByUrl } from '@/utils/extension-action'
+import { getEle, createDom } from '@/utils'
 import '@/style/leetcode.css'
 import '@/style/desc.css'
 import list from './batch'
@@ -12,27 +11,33 @@ const locationHref = window.location.href
 
 // injectScriptByUrl('http://localhost:8098')
 
+let hiddenEl = createDom('span', '', 'hidden-el')
+document.body.appendChild(hiddenEl)
+
 const patterns = {
   list: {
     match: /problemset/,
     handler() {
-      // let listContainer = '[role="rowgroup"], .reactable-data'
-      let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"]'))
-
-      nodeList.forEach((item, index) => {
-        let parentNode = item.children[2]
-
-        parentNode.classList.add("solution-btn-parent")
-        parentNode.appendChild(createDom('button', '获取题解', 'solution-btn'))
-        parentNode.onclick = function() {
-          console.log('index', index)
-        }
-
-        let myEvent = new CustomEvent('myEvent', {
-          detail: {}
-        })
+      let listContainer = getEle('[role="rowgroup"]')
+      list('.hidden-el')
+      listContainer.addEventListener('click', (event) => {
+        let target = event.target
+        if (!target.classList.contains('solution-btn')) return
+          let targetItem = target.closest('[role="row"]')
+          let questionName = targetItem.querySelector('a').href.match(/problems\/([^?/]+)/)[1]
+          const questionEvent = new CustomEvent('click-question', {
+            'detail':{
+              questionName
+            }
+          })
+          window.dispatchEvent(questionEvent)
       })
-      // domMutation(getEle('.question-list-hr+div, [role="table"]'), () => list(listContainer))
+      let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"]'))
+      nodeList.forEach(item => {
+        let parentNode = item.children[2]
+        parentNode.classList.add('solution-btn-parent')
+        parentNode.appendChild(createDom('button', '获取题解', 'solution-btn'))
+      })
     }
   },
   detail: {

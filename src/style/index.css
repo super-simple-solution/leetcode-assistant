@@ -50,3 +50,8 @@
   .solution-btn-parent {
     position: relative;
   }
+  .hidden-el {
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+  }

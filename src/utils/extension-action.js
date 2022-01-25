@@ -15,6 +15,10 @@ export function injectScriptByUrl(url) {
   document.head.appendChild(s)
 }
 
+export function injectMunual() {
+  injectScript(chrome.extension.getURL('/js/inject.js'), 'body')
+}
+
 export function injectCSS(file) {
   let head = document.head
   let s = document.createElement('link')
