@@ -1,3 +1,22 @@
+.ant-drawer-body {
+  padding: 16px!important;
+  overflow: hidden!important;
+}
+.ant-drawer-body>.ant-row {
+  height: 100%;
+  overflow: hidden;
+}
+.ant-drawer-body>.ant-row>.ant-col {
+  height: 100%;
+  overflow-y: auto;
+}
+.ant-drawer-header {
+  padding: 0 16px!important;
+}
+.ant-tabs-bar {
+  margin: 0;
+  border-bottom: none;
+}
 .ant-drawer-header-title, 
 .ant-drawer-title {
   width: 100%;

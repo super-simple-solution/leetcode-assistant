@@ -22,7 +22,7 @@
           </a-row>
         </template>
         <a-spin :spinning="spinning">
-          <a :href="`https://leetcode.com/problems/${props.curSolutionTitleSlug}/discuss/${item.id}/${item.title_format}`" target="_blank">{{ langObj.en.discussLink }}</a>
+          <a class="link-color" :href="`/problems/${props.curSolutionTitleSlug}/discuss/${item.id}/${item.title_format}`" target="_blank">{{ langObj.originalLink }}</a>
           <p v-html="item.resolve" v-if="item.resolve"></p>
         </a-spin>
       </a-collapse-panel>

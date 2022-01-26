@@ -30,68 +30,6 @@ export function domMutation(targetNode, cb) {
   observer.observe(targetNode, config)
 }
 
-import katex from 'katex'
-import hljs from 'highlight.js/lib/common'
-import 'highlight.js/styles/default.css'
-
-const regList = [
-  {
-    name: 'img',
-    reg: new RegExp(/\(\.\.\/Figures\//g),
-    to: () => `(/problems/${questionName}/Figures/`
-  },
-  {
-    name: 'video',
-    reg: /!\[[^\]\[]+\]\(([^)(]+\.mp4)\)/g,
-    to: (_, p1) => `<video src="//problems/${questionName}${p1}" style="width: 100%" controls="" preload="none" poster="封面">
-          <source id="mp4" src="mp4格式视频" type="video/mp4">
-        </video>`
-  },
-  {
-    name: 'iframe',
-    reg: /<iframe/g,
-    to: '<iframe style="max-width: 100%"'
-  },
-  {
-    name: 'katex',
-    reg:  /\$+([^\$]+?)\$+/g,
-    to: (_, p1) => {
-      return katex.renderToString(p1, {
-        throwOnError: false,
-        displayMode: true,
-        output: 'html'
-      })
-    }
-  },
-  {
-    // '45\\xb0 diagonal' to '45° diagonal'
-    name: 'hex to symbol',
-    reg: /\\x(\S+)/gm,
-    to: (_, p1) => String.fromCodePoint(parseInt(`00${p1}`, 16))
-  },
-  // {
-  //   // markdown will not parse unicode to symbol in code element
-  //   // TODO `45\xb0 diagonal` TO `45 ${unicode symbol} diagonal`
-  //   name: 'code',
-  //   reg: /`+([^`]+?)`+/g,
-  //   to: () => hljs.highlight
-  // },
-  {
-    name: 'newline',
-    reg: /\\n/g,
-    to:  '\n',
-  }
-]
-
-// questionName for closure
-export function parseContent(content, questionName) {
-  regList.forEach(item => {
-    content = content.replace(item.reg, item.to)
-  })
-  return content
-}
-
-
 const SI_SYMBOL = ['', 'k', 'M', 'G', 'T', 'P', 'E']
 export function abbreviateNumber(number){
     var tier = Math.log10(number) / 3 | 0
@@ -109,10 +47,12 @@ export function abbreviateNumber(number){
     return scaled.toFixed(1) + suffix
 }
 
-
-export function createDom(tag, innerText, className) {
-  let dom = document.createElement(tag)
-  dom.innerText = innerText
-  dom.className = className
-  return dom
+export function createEle(option) {
+  const {
+    tag, content, class: className
+  } = option
+  let el = document.createElement(tag)
+  el.innerText = content || ''
+  el.className = className
+  return el
 }

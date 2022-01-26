@@ -1,17 +1,14 @@
-import { getEle, createDom } from '@/utils'
-import '@/style/leetcode.css'
+import { getEle, createEle } from '@/utils'
+import { langEnum } from './batch/const'
 import '@/style/desc.css'
 import list from './batch'
 const locationHref = window.location.href
 
-// import devtools from '@vue/devtools'
-// if (process.env.NODE_ENV === 'development') {
-//   devtools.connect() 
-// }
-
-// injectScriptByUrl('http://localhost:8098')
-
-let hiddenEl = createDom('span', '', 'hidden-el')
+// unvisible element to mount on
+let hiddenEl = createEle({
+  tag: 'span',
+  class: 'hidden-el'
+})
 document.body.appendChild(hiddenEl)
 
 const patterns = {
@@ -36,9 +33,13 @@ const patterns = {
       })
       let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"]'))
       nodeList.forEach(item => {
-        let parentNode = item.children[2]
+        let parentNode = item.children[3]
         parentNode.classList.add('solution-btn-parent')
-        parentNode.appendChild(createDom('button', '获取题解', 'solution-btn'))
+        parentNode.appendChild(createEle({
+          tag: 'button',
+          content: langEnum.init,
+          class: 'solution-btn'
+        }))
       })
     }
   },

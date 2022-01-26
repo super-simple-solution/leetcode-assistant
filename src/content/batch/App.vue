@@ -9,10 +9,14 @@
     <template v-slot:title>
       <a-row  :gutter="10">
         <a-col :span="12">
-          <span class="mr-20">{{ curQuestionName }}</span>
+          <span class="question-name">{{ curQuestionName }}</span>
         </a-col>
         <a-col :span="12">
-          <a-button type="primary" size="small" @click="showSolution">{{  langObj[lang].discuss  }}</a-button>
+          <a-tabs v-if="!isZH" v-model:activeKey="metaData.activeKey" @change="handleTabChange">
+            <a-tab-pane :key="langObj.tab1.key" :tab="langObj.tab1.tab"></a-tab-pane>
+            <a-tab-pane :key="langObj.tab2.key" :tab="langObj.tab2.tab"></a-tab-pane>
+          </a-tabs>
+          <a-button v-else type="primary" size="small" @click="showSolution">{{  langObj.discuss  }}</a-button>
         </a-col>
       </a-row>
     </template>
@@ -24,18 +28,21 @@
         <a-spin :spinning="spinning">
           <!-- en -->
           <template v-if="!isZH">
-            <a-tabs v-model:activeKey="activeKey" @change="handleTabChange">
-              <a-tab-pane :key="langObj.en.tab1.key" :tab="langObj.en.tab1.tab"></a-tab-pane>
-              <a-tab-pane :key="langObj.en.tab2.key" :tab="langObj.en.tab2.tab"></a-tab-pane>
-            </a-tabs>
-            <p v-html="curEnSolution" v-if="activeKey == langObj.en.tab2.key"></p>
+            <template v-if="metaData.activeKey == langObj.tab2.key">
+              <template v-if="curEnSolution">
+                <a class="link-color" :href="`/problems/${metaData.info.questionName}/solution`" target="_blank">{{ langObj.originalLink }}</a>
+                <p v-html="curEnSolution"></p>
+              </template>
+              <span v-else-if="metaData.data.enSolutionGeted">No solution or Solution locked</span>
+            </template>
             <en-solution
-              v-else
+              v-else-if="enDiscussList.length"
               :cur-solution-id="metaData.info.questionId" 
               :cur-solution-title-slug="metaData.info.titleSlug"
               :list="enDiscussList"
               @set-resolve="setEnResolve"
             ></en-solution>
+            <a-button v-else type="primary" size="small" @click="showSolution">{{  langObj.discuss  }}</a-button>
           </template>
           <!-- zh -->
           <template v-else-if="zhDiscussList.length">
@@ -66,7 +73,6 @@ let metaData = reactive(initData())
 let langObj = ref(langEnum)
 
 let isZH = ref(location.origin.includes('leetcode-cn'))
-let lang = ref(isZH.value ? 'zh' : 'en')
 
 let spinning = ref(false)
 
@@ -100,11 +106,10 @@ function clickListener() {
   }, { capture: true })
 }
 
-let activeKey = ref(langEnum.en.tab1.key)
 const showSolution = () => {
   if (!curEnSolution.value && !zhDiscussList.value.length && !enDiscussList.value.length) {
     if (!isZH.value) {
-      handleTabChange(activeKey.value)
+      handleTabChange(metaData.activeKey)
     } else {
       spinning.value = true
       apiMap.zhDiscussList({
@@ -118,6 +123,7 @@ const showSolution = () => {
           desc: _v.node.summary.slice(0, 40),
         }))
         metaData.data.zhDiscussList = discussList
+      }).finally(() => {
         spinning.value = false
       })
     }
@@ -125,10 +131,11 @@ const showSolution = () => {
 }
 
 const handleTabChange = (key) => {
-  if (key === langEnum.en.tab1.key) {
+  let { questionName, questionId } = metaData.info
+  if (key === langEnum.tab1.key) {
     if (enDiscussList.value.length) return
     spinning.value = true
-    apiMap.enDiscussList({ questionId:  metaData.info.questionId}).then(res => {
+    apiMap.enDiscussList({ questionId }).then(res => {
       const data = res.questionTopicsList.edges || []
       const discussList = data.map(_v => ({
         ..._v.node,
@@ -138,21 +145,22 @@ const handleTabChange = (key) => {
         title_format: _v.node.title.replace(/\s/g, '-')
       }))
       metaData.data.enDiscussList = discussList
+    }).finally(() => {
       spinning.value = false
     })
   } else {
-    if (curEnSolution.value) return
+    if (metaData.data.enSolutionGeted) return
     spinning.value = true
     apiMap.solution({
-      questionName: metaData.info.questionName
+      questionName
       }).then(res => {
         let solution = res.question.solution?.content
         if (solution) {
-          metaData.data.enSolution = parseContent(solution, metaData.info.questionName)
-        } else {
-          metaData.data.enSolution = 'no solution'
+          metaData.data.enSolution = parseContent(solution, questionName)
         }
+      }).finally(() => {
         spinning.value = false
+        metaData.data.enSolutionGeted = true
       })
   }
 }
@@ -176,10 +184,12 @@ function reset() {
 
 function initData() {
   return {
+    activeKey: langEnum.tab1.key,
     data: {
       desc: '',
       descZH: '',
       enSolution: '',
+      enSolutionGeted: false,
       zhDiscussList: [], // zh
       enDiscussList: [], // zh
     },

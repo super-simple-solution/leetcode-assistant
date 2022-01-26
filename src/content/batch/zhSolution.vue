@@ -5,8 +5,7 @@
         <span>{{ item.title }}</span>
         <p>{{ item.desc }}</p>
       </template>
-      <a :href="`https://leetcode-cn.com/problems/${props.curSolutionTitleSlug}/solution/${item.slug}`" target="_blank">{{ langObj.zh.discussLink }}</a>
-      <!-- https://leetcode-cn.com/problems/n-queens/solution/nhuang-hou-by-leetcode-solution/ -->
+      <a class="link-color" :href="`/problems/${props.curSolutionTitleSlug}/solution/${item.slug}`" target="_blank">{{ langObj.originalLink }}</a>
       <p v-html="item.resolve"></p>
     </a-collapse-panel>
   </a-collapse>

@@ -79,3 +79,7 @@
   max-width: 100%;
   height: auto !important;
 }
+
+.question-name {
+  line-height: 44px;
+}

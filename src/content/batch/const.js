@@ -1,7 +1,7 @@
-export const langEnum = {
+const I18n = {
   en: {
-    listBtn: 'Description',
-    discuss: 'get discuss',
+    init: 'Description',
+    discuss: 'Get Discuss',
     tab1: {
       tab: 'Discuss',
       key: 'discuss',
@@ -10,11 +10,15 @@ export const langEnum = {
       tab: 'Solution',
       key: 'solution',
     },
-    discussLink: 'origin link'
+    originalLink: 'Original Link'
   },
   zh: {
-    listBtn: '描述',
+    init: '描述',
     discuss: '获取题解',
-    discussLink: '查看原文'
+    originalLink: '查看原文'
   }
 }
+
+let isZH = location.origin.includes('leetcode-cn')
+let lang = isZH ? 'zh' : 'en'
+export const langEnum = I18n[lang]

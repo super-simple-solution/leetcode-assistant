@@ -3,10 +3,9 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/default.css'
 import MarkdownIt from 'markdown-it'
 
-var md = new MarkdownIt({
+let md = new MarkdownIt({
   html: true,
   highlight: function (str, lang) {
-    console.log('lang', lang)
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(str, { language: lang }).value
@@ -50,9 +49,7 @@ const regList = [
   }
 ]
 
-
-
-export default function (content, questionName) {
+export default function (content, questionName = '') {
   regList.forEach(item => {
     content = content.replace(item.reg, item.to)
   })

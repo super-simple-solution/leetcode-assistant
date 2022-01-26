@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@vitejs/plugin-vue': ^2.0.1
   '@vue/devtools': ^5.3.4
-  ant-design-vue: 3.0.0-beta.7
+  ant-design-vue: 2.2.8
   axios: ^0.24.0
   eslint: ^8.6.0
   eslint-plugin-vue: ^8.2.0
@@ -21,7 +21,7 @@ specifiers:
 
 dependencies:
   '@vue/devtools': registry.npmmirror.com/@vue/devtools/5.3.4
-  ant-design-vue: registry.npmmirror.com/ant-design-vue/3.0.0-beta.7_vue@3.2.26
+  ant-design-vue: registry.npmmirror.com/ant-design-vue/2.2.8_vue@3.2.26
   axios: 0.24.0
   highlight.js: registry.npmmirror.com/highlight.js/11.4.0
   katex: registry.npmmirror.com/katex/0.15.2
@@ -1519,22 +1519,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  registry.nlark.com/@ant-design/colors/5.1.1:
-    resolution: {integrity: sha1-gAshhrHifmZDLmfQPtlq8+IdiUA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@ant-design/colors/download/@ant-design/colors-5.1.1.tgz}
-    name: '@ant-design/colors'
-    version: 5.1.1
-    dependencies:
-      '@ctrl/tinycolor': registry.nlark.com/@ctrl/tinycolor/3.4.0
-    dev: false
-
-  registry.nlark.com/@ant-design/colors/6.0.0:
-    resolution: {integrity: sha1-m5NmJXz/zEfbQrnQIDu1ksE8Apg=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@ant-design/colors/download/@ant-design/colors-6.0.0.tgz}
-    name: '@ant-design/colors'
-    version: 6.0.0
-    dependencies:
-      '@ctrl/tinycolor': registry.nlark.com/@ctrl/tinycolor/3.4.0
-    dev: false
-
   registry.nlark.com/@ant-design/icons-vue/6.0.1_vue@3.2.26:
     resolution: {integrity: sha1-nYBMPHTSz6+XyxjlgtO5QAk09f0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@ant-design/icons-vue/download/@ant-design/icons-vue-6.0.1.tgz}
     id: registry.nlark.com/@ant-design/icons-vue/6.0.1
@@ -1543,18 +1527,11 @@ packages:
     peerDependencies:
       vue: '>=3.0.3'
     dependencies:
-      '@ant-design/colors': registry.nlark.com/@ant-design/colors/5.1.1
+      '@ant-design/colors': registry.npmmirror.com/@ant-design/colors/5.1.1
       '@ant-design/icons-svg': registry.npmmirror.com/@ant-design/icons-svg/4.2.1
       '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.178
       lodash: registry.npmmirror.com/lodash/4.17.21
       vue: 3.2.26
-    dev: false
-
-  registry.nlark.com/@ctrl/tinycolor/3.4.0:
-    resolution: {integrity: sha1-w8WuVDyJfKqcKmhjC+01W+X5mQ8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@ctrl/tinycolor/download/@ctrl/tinycolor-3.4.0.tgz}
-    name: '@ctrl/tinycolor'
-    version: 3.4.0
-    engines: {node: '>=10'}
     dev: false
 
   registry.nlark.com/@nodelib/fs.scandir/2.1.5:
@@ -2783,6 +2760,14 @@ packages:
       fd-slicer: registry.nlark.com/fd-slicer/1.1.0
     dev: false
 
+  registry.npmmirror.com/@ant-design/colors/5.1.1:
+    resolution: {integrity: sha1-gAshhrHifmZDLmfQPtlq8+IdiUA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@ant-design/colors/download/@ant-design/colors-5.1.1.tgz}
+    name: '@ant-design/colors'
+    version: 5.1.1
+    dependencies:
+      '@ctrl/tinycolor': registry.npmmirror.com/@ctrl/tinycolor/3.4.0
+    dev: false
+
   registry.npmmirror.com/@ant-design/icons-svg/4.2.1:
     resolution: {integrity: sha1-hjDajrRHGkqr2u19H/apfcss8Fo=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@ant-design/icons-svg/download/@ant-design/icons-svg-4.2.1.tgz}
     name: '@ant-design/icons-svg'
@@ -2831,6 +2816,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: registry.npmmirror.com/regenerator-runtime/0.13.9
+    dev: false
+
+  registry.npmmirror.com/@ctrl/tinycolor/3.4.0:
+    resolution: {integrity: sha1-w8WuVDyJfKqcKmhjC+01W+X5mQ8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@ctrl/tinycolor/download/@ctrl/tinycolor-3.4.0.tgz}
+    name: '@ctrl/tinycolor'
+    version: 3.4.0
+    engines: {node: '>=10'}
     dev: false
 
   registry.npmmirror.com/@electron/get/1.13.1:
@@ -2927,26 +2919,26 @@ packages:
       color-convert: registry.npmmirror.com/color-convert/1.9.3
     dev: true
 
-  registry.npmmirror.com/ant-design-vue/3.0.0-beta.7_vue@3.2.26:
-    resolution: {integrity: sha512-8ay9+AnleifI/Ji6DnbrBku1kwo3fPjNrxyqsBAfe573T4gML9AVpX2/CaJgc41ID9liJdNV8fChgVEckeVb1A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ant-design-vue/download/ant-design-vue-3.0.0-beta.7.tgz}
-    id: registry.npmmirror.com/ant-design-vue/3.0.0-beta.7
+  registry.npmmirror.com/ant-design-vue/2.2.8_vue@3.2.26:
+    resolution: {integrity: sha512-3graq9/gCfJQs6hznrHV6sa9oDmk/D1H3Oo0vLdVpPS/I61fZPk8NEyNKCHpNA6fT2cx6xx9U3QS63uuyikg/Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ant-design-vue/download/ant-design-vue-2.2.8.tgz}
+    id: registry.npmmirror.com/ant-design-vue/2.2.8
     name: ant-design-vue
-    version: 3.0.0-beta.7
+    version: 2.2.8
     peerDependencies:
       '@vue/compiler-sfc': '>=3.1.0'
       vue: '>=3.1.0'
     dependencies:
-      '@ant-design/colors': registry.nlark.com/@ant-design/colors/6.0.0
       '@ant-design/icons-vue': registry.nlark.com/@ant-design/icons-vue/6.0.1_vue@3.2.26
       '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.16.7
       '@simonwep/pickr': registry.nlark.com/@simonwep/pickr/1.8.2
       array-tree-filter: registry.nlark.com/array-tree-filter/2.1.0
-      async-validator: registry.npmmirror.com/async-validator/4.0.7
-      dayjs: registry.npmmirror.com/dayjs/1.10.7
+      async-validator: registry.npmmirror.com/async-validator/3.5.2
       dom-align: registry.nlark.com/dom-align/1.12.2
       dom-scroll-into-view: registry.nlark.com/dom-scroll-into-view/2.0.1
       lodash: registry.npmmirror.com/lodash/4.17.21
       lodash-es: registry.npmmirror.com/lodash-es/4.17.21
+      moment: registry.npmmirror.com/moment/2.29.1
+      omit.js: registry.npmmirror.com/omit.js/2.0.2
       resize-observer-polyfill: registry.nlark.com/resize-observer-polyfill/1.5.1
       scroll-into-view-if-needed: registry.npmmirror.com/scroll-into-view-if-needed/2.2.28
       shallow-equal: registry.nlark.com/shallow-equal/1.2.1
@@ -2961,10 +2953,10 @@ packages:
     version: 0.0.7
     dev: false
 
-  registry.npmmirror.com/async-validator/4.0.7:
-    resolution: {integrity: sha1-A0oP0hA6ay6/AQ2nUYO+wpkkev4=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/async-validator/download/async-validator-4.0.7.tgz}
+  registry.npmmirror.com/async-validator/3.5.2:
+    resolution: {integrity: sha1-aOhmqWgk6LJpT/eoMcGiXETV5QA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/async-validator/download/async-validator-3.5.2.tgz}
     name: async-validator
-    version: 4.0.7
+    version: 3.5.2
     dev: false
 
   registry.npmmirror.com/backo2/1.0.2:
@@ -3089,12 +3081,6 @@ packages:
     name: core-js
     version: 3.20.2
     requiresBuild: true
-    dev: false
-
-  registry.npmmirror.com/dayjs/1.10.7:
-    resolution: {integrity: sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/dayjs/download/dayjs-1.10.7.tgz}
-    name: dayjs
-    version: 1.10.7
     dev: false
 
   registry.npmmirror.com/debug/2.6.9:
@@ -3876,6 +3862,12 @@ packages:
       minimist: registry.nlark.com/minimist/1.2.5
     dev: false
 
+  registry.npmmirror.com/moment/2.29.1:
+    resolution: {integrity: sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/moment/download/moment-2.29.1.tgz}
+    name: moment
+    version: 2.29.1
+    dev: false
+
   registry.npmmirror.com/ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ms/download/ms-2.0.0.tgz?cache=0&sync_timestamp=1632788710719&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fms%2Fdownload%2Fms-2.0.0.tgz}
     name: ms
@@ -3899,6 +3891,12 @@ packages:
     version: 3.1.30
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  registry.npmmirror.com/omit.js/2.0.2:
+    resolution: {integrity: sha1-3ZuENvq5R6Xz/yFMslOGMeMT7C8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/omit.js/download/omit.js-2.0.2.tgz}
+    name: omit.js
+    version: 2.0.2
+    dev: false
 
   registry.npmmirror.com/parse-json/5.2.0:
     resolution: {integrity: sha1-x2/Gbe5UIxyWKyK8yKcs8vmXU80=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/parse-json/download/parse-json-5.2.0.tgz}

@@ -1,4 +1,4 @@
-import ViteComponents from 'unplugin-vue-components/vite'
+import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
@@ -15,11 +15,12 @@ export default defineConfig({
     sourcemap: 'inline',
   },
   plugins: [
+    Components({
+      resolvers: [AntDesignVueResolver()],
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+    }),
     vue(),
     chromeExtension(),
-    ViteComponents({
-      resolvers: [AntDesignVueResolver()]
-    })
   ],
   configureWebpack: {
     devtool: "true",
