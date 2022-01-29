@@ -5,6 +5,7 @@ import { chromeExtension } from 'rollup-plugin-chrome-extension'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
+import eslintPlugin from 'vite-plugin-eslint'
 
 // https://juejin.cn/post/7012446423367024676#heading-12
 
@@ -23,6 +24,7 @@ export default defineConfig({
     Components({
       resolvers: [AntDesignVueResolver()],
     }),
+    eslintPlugin(),
     AutoImport({
       // targets to transform
       include: [

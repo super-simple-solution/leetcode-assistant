@@ -1,5 +1,10 @@
-import { getEle, createEle } from '@/utils'
-import { langEnum } from './batch/const'
+import {
+  getEle,
+  createEle
+} from '@/utils'
+import {
+  langEnum
+} from './batch/const'
 import '@/style/desc.css'
 import list from './batch'
 const locationHref = window.location.href
@@ -20,16 +25,16 @@ const patterns = {
       listContainer.addEventListener('click', (event) => {
         let target = event.target
         if (!target.classList.contains('solution-btn')) return
-          let targetItem = target.closest('[role="row"]')
-          let questionName = targetItem.querySelector('a').href.match(/problems\/([^?/]+)/)[1]
-          let questionFullName = targetItem.querySelector('.truncate').textContent
-          const questionEvent = new CustomEvent('click-question', {
-            'detail':{
-              questionName,
-              questionFullName
-            }
-          })
-          window.dispatchEvent(questionEvent)
+        let targetItem = target.closest('[role="row"]')
+        let questionName = targetItem.querySelector('a').href.match(/problems\/([^?/]+)/)[1]
+        let questionFullName = targetItem.querySelector('.truncate').textContent
+        const questionEvent = new CustomEvent('click-question', {
+          'detail': {
+            questionName,
+            questionFullName
+          }
+        })
+        window.dispatchEvent(questionEvent)
       })
       let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"]'))
       nodeList.forEach(item => {
