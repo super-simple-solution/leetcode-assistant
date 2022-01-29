@@ -6,8 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import eslintPlugin from 'vite-plugin-eslint'
-
-// https://juejin.cn/post/7012446423367024676#heading-12
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   resolve: {
@@ -19,10 +18,13 @@ export default defineConfig({
     sourcemap: 'inline',
   },
   plugins: [
+    // visualizer(),
     vue(),
     chromeExtension(),
     Components({
       resolvers: [AntDesignVueResolver()],
+      dts: true,
+      include: [/\.vue$/, /\.vue\?vue/],
     }),
     eslintPlugin(),
     AutoImport({
@@ -33,7 +35,6 @@ export default defineConfig({
         /\.vue\?vue/, // .vue
         /\.md$/, // .md
       ],
-
       // global imports to register
       imports: [
         // presets
