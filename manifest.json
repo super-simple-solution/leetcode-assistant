@@ -10,9 +10,6 @@
     "64": "src/assets/icons/icon64.png",
     "128": "src/assets/icons/icon128.png"
   },
-  "permissions": [
-    "storage"
-  ],
   "background": {
     "service_worker": "src/background.js"
   },
