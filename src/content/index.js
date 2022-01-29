@@ -1,10 +1,5 @@
-import {
-  getEle,
-  createEle
-} from '@/utils'
-import {
-  langEnum
-} from './batch/const'
+import { getEle, createEle } from '@/utils'
+import { langEnum } from './batch/const'
 import '@/style/desc.css'
 import list from './batch'
 const locationHref = window.location.href
@@ -12,7 +7,7 @@ const locationHref = window.location.href
 // unvisible element to mount on
 let hiddenEl = createEle({
   tag: 'span',
-  class: 'hidden-el'
+  class: 'hidden-el',
 })
 document.body.appendChild(hiddenEl)
 
@@ -29,28 +24,30 @@ const patterns = {
         let questionName = targetItem.querySelector('a').href.match(/problems\/([^?/]+)/)[1]
         let questionFullName = targetItem.querySelector('.truncate').textContent
         const questionEvent = new CustomEvent('click-question', {
-          'detail': {
+          detail: {
             questionName,
-            questionFullName
-          }
+            questionFullName,
+          },
         })
         window.dispatchEvent(questionEvent)
       })
       let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"]'))
-      nodeList.forEach(item => {
+      nodeList.forEach((item) => {
         let parentNode = item.children[3]
         parentNode.classList.add('solution-btn-parent')
-        parentNode.appendChild(createEle({
-          tag: 'button',
-          content: langEnum.init,
-          class: 'solution-btn'
-        }))
+        parentNode.appendChild(
+          createEle({
+            tag: 'button',
+            content: langEnum.init,
+            class: 'solution-btn',
+          }),
+        )
       })
-    }
+    },
   },
   detail: {
     match: '',
-    handler() {}
+    handler() {},
   },
 }
 

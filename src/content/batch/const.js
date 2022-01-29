@@ -10,7 +10,7 @@ const I18n = {
       tab: 'Solution',
       key: 'solution',
     },
-    originalLink: 'Original Link'
+    originalLink: 'Original Link',
   },
   zh: {
     init: '描述',
@@ -24,7 +24,7 @@ const I18n = {
       tab: '',
       key: '',
     },
-  }
+  },
 }
 
 let isZH = location.origin.includes('leetcode-cn')

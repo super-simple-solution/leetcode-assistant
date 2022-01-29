@@ -29,10 +29,11 @@ export default defineConfig({
       // targets to transform
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
-        /\.vue$/, /\.vue\?vue/, // .vue
-        /\.md$/, // .md  
+        /\.vue$/,
+        /\.vue\?vue/, // .vue
+        /\.md$/, // .md
       ],
-    
+
       // global imports to register
       imports: [
         // presets
@@ -41,8 +42,8 @@ export default defineConfig({
       eslintrc: {
         enabled: false, // Default `false`
         filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
-        globalsPropValue: true // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+        globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
       },
-    })
-  ]
+    }),
+  ],
 })

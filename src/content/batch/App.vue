@@ -1,13 +1,7 @@
 <template>
-  <a-drawer
-    placement="bottom"
-    :closable="false"
-    v-model:visible="descVisible"
-    height="600"
-    @close="reset"
-  >
-    <template v-slot:title>
-      <a-row  :gutter="10">
+  <a-drawer v-model:visible="descVisible" placement="bottom" :closable="false" height="600" @close="reset">
+    <template #title>
+      <a-row :gutter="10">
         <a-col :span="12">
           <span class="question-name">{{ curQuestionName }}</span>
         </a-col>
@@ -16,7 +10,7 @@
             <a-tab-pane :key="langObj.tab1.key" :tab="langObj.tab1.tab"></a-tab-pane>
             <a-tab-pane :key="langObj.tab2.key" :tab="langObj.tab2.tab"></a-tab-pane>
           </a-tabs>
-          <a-button v-else type="primary" size="small" @click="showSolution">{{  langObj.discuss  }}</a-button>
+          <a-button v-else type="primary" size="small" @click="showSolution">{{ langObj.discuss }}</a-button>
         </a-col>
       </a-row>
     </template>
@@ -30,19 +24,21 @@
           <template v-if="!isZH">
             <template v-if="metaData.activeKey == langObj.tab2.key">
               <template v-if="curEnSolution">
-                <a class="link-color" :href="`/problems/${metaData.info.questionName}/solution`" target="_blank">{{ langObj.originalLink }}</a>
+                <a class="link-color" :href="`/problems/${metaData.info.questionName}/solution`" target="_blank">{{
+                  langObj.originalLink
+                }}</a>
                 <p v-html="curEnSolution"></p>
               </template>
               <span v-else-if="metaData.data.enSolutionGeted">No solution or Solution locked</span>
             </template>
             <en-solution
               v-else-if="enDiscussList.length"
-              :cur-solution-id="metaData.info.questionId" 
+              :cur-solution-id="metaData.info.questionId"
               :cur-solution-title-slug="metaData.info.titleSlug"
               :list="enDiscussList"
               @set-resolve="setEnResolve"
             ></en-solution>
-            <a-button v-else type="primary" size="small" @click="showSolution">{{  langObj.discuss  }}</a-button>
+            <a-button v-else type="primary" size="small" @click="showSolution">{{ langObj.discuss }}</a-button>
           </template>
           <!-- zh -->
           <template v-else-if="zhDiscussList.length">
@@ -81,28 +77,31 @@ onMounted(clickListener)
 onBeforeUnmount(() => window.removeEventListener('click-question'))
 
 const showDesc = (msg) => {
-  const {
-    questionName,
-    questionFullName,
-  } = msg
+  const { questionName, questionFullName } = msg
   metaData.info.questionName = questionName
   metaData.info.questionFullName = questionFullName
-  apiMap.desc({
-    questionName,
-  }).then(res => {
-    metaData.data.desc = res.question.content
-    metaData.data.descZH = res.question.translatedContent
-    metaData.info.questionFullNameZH = res.question.translatedTitle
-    metaData.info.questionId = res.question.questionId
-    metaData.info.titleSlug = res.question.titleSlug
-    descVisible.value = true
-  })
+  apiMap
+    .desc({
+      questionName,
+    })
+    .then((res) => {
+      metaData.data.desc = res.question.content
+      metaData.data.descZH = res.question.translatedContent
+      metaData.info.questionFullNameZH = res.question.translatedTitle
+      metaData.info.questionId = res.question.questionId
+      metaData.info.titleSlug = res.question.titleSlug
+      descVisible.value = true
+    })
 }
 
 function clickListener() {
-  window.addEventListener('click-question', function (e) {
-    showDesc(e.detail)
-  }, { capture: true })
+  window.addEventListener(
+    'click-question',
+    function (e) {
+      showDesc(e.detail)
+    },
+    { capture: true },
+  )
 }
 
 const showSolution = () => {
@@ -111,20 +110,23 @@ const showSolution = () => {
       handleTabChange(metaData.activeKey)
     } else {
       spinning.value = true
-      apiMap.zhDiscussList({
-        questionName: metaData.info.questionName
-      }).then(res => {
-        const data = res.questionSolutionArticles.edges || []
-        const discussList = data.map(_v => ({
-          ..._v.node,
-          key: _v.node.slug,
-          resolve: '',
-          desc: _v.node.summary.slice(0, 40),
-        }))
-        metaData.data.zhDiscussList = discussList
-      }).finally(() => {
-        spinning.value = false
-      })
+      apiMap
+        .zhDiscussList({
+          questionName: metaData.info.questionName,
+        })
+        .then((res) => {
+          const data = res.questionSolutionArticles.edges || []
+          const discussList = data.map((_v) => ({
+            ..._v.node,
+            key: _v.node.slug,
+            resolve: '',
+            desc: _v.node.summary.slice(0, 40),
+          }))
+          metaData.data.zhDiscussList = discussList
+        })
+        .finally(() => {
+          spinning.value = false
+        })
     }
   }
 }
@@ -134,30 +136,36 @@ const handleTabChange = (key) => {
   if (key === langEnum.tab1.key) {
     if (enDiscussList.value.length) return
     spinning.value = true
-    apiMap.enDiscussList({ questionId }).then(res => {
-      const data = res.questionTopicsList.edges || []
-      const discussList = data.map(_v => ({
-        ..._v.node,
-        resove: '',
-        voteCountText: abbreviateNumber(_v.node.post.voteCount),
-        viewCountText: abbreviateNumber(_v.node.viewCount),
-        title_format: _v.node.title.replace(/\s/g, '-')
-      }))
-      metaData.data.enDiscussList = discussList
-    }).finally(() => {
-      spinning.value = false
-    })
+    apiMap
+      .enDiscussList({ questionId })
+      .then((res) => {
+        const data = res.questionTopicsList.edges || []
+        const discussList = data.map((_v) => ({
+          ..._v.node,
+          resove: '',
+          voteCountText: abbreviateNumber(_v.node.post.voteCount),
+          viewCountText: abbreviateNumber(_v.node.viewCount),
+          title_format: _v.node.title.replace(/\s/g, '-'),
+        }))
+        metaData.data.enDiscussList = discussList
+      })
+      .finally(() => {
+        spinning.value = false
+      })
   } else {
     if (metaData.data.enSolutionGeted) return
     spinning.value = true
-    apiMap.solution({
-      questionName
-      }).then(res => {
+    apiMap
+      .solution({
+        questionName,
+      })
+      .then((res) => {
         let solution = res.question.solution?.content
         if (solution) {
           metaData.data.enSolution = parseContent(solution, questionName)
         }
-      }).finally(() => {
+      })
+      .finally(() => {
         spinning.value = false
         metaData.data.enSolutionGeted = true
       })
@@ -198,7 +206,7 @@ function initData() {
       questionFullNameZH: '',
       questionId: '',
       titleSlug: '',
-    }
+    },
   }
 }
 </script>

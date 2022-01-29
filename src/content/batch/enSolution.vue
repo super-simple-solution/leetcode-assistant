@@ -1,32 +1,37 @@
 <template>
-    <a-collapse v-model:activeKey="activeKey" accordion expand-icon-position="right" @change="currentDiscussResolve">
-      <a-collapse-panel v-for="(item, index) in props.list" :key="index">
-        <template v-slot:header>
-          <a-row>
-            <a-col :span="2"  class="flex items-center">
-              <a-avatar :src="item.post.author.profile.userAvatar" class="mr-10"/>
-            </a-col>
-            <a-col :span="16"  class="flex items-center">{{ item.title }}</a-col>
-            <a-col :span="3" class="flex items-center">
-              <p class="flex items-center">
-                <caret-up-outlined class="mr-10"/>
-                <span>{{ item.voteCountText }}</span>
-              </p>
-            </a-col>
-            <a-col :span="3" class="flex items-center">
-              <p class="flex items-center">
-                <eye-outlined class="mr-10"/>
-                <span>{{ item.viewCountText }}</span>
-              </p>
-            </a-col>
-          </a-row>
-        </template>
-        <a-spin :spinning="spinning">
-          <a class="link-color" :href="`/problems/${props.curSolutionTitleSlug}/discuss/${item.id}/${item.title_format}`" target="_blank">{{ langObj.originalLink }}</a>
-          <p v-html="item.resolve" v-if="item.resolve"></p>
-        </a-spin>
-      </a-collapse-panel>
-    </a-collapse>
+  <a-collapse v-model:activeKey="activeKey" accordion expand-icon-position="right" @change="currentDiscussResolve">
+    <a-collapse-panel v-for="(item, index) in props.list" :key="index">
+      <template #header>
+        <a-row>
+          <a-col :span="2" class="flex items-center">
+            <a-avatar :src="item.post.author.profile.userAvatar" class="mr-10" />
+          </a-col>
+          <a-col :span="16" class="flex items-center">{{ item.title }}</a-col>
+          <a-col :span="3" class="flex items-center">
+            <p class="flex items-center">
+              <caret-up-outlined class="mr-10" />
+              <span>{{ item.voteCountText }}</span>
+            </p>
+          </a-col>
+          <a-col :span="3" class="flex items-center">
+            <p class="flex items-center">
+              <eye-outlined class="mr-10" />
+              <span>{{ item.viewCountText }}</span>
+            </p>
+          </a-col>
+        </a-row>
+      </template>
+      <a-spin :spinning="spinning">
+        <a
+          class="link-color"
+          :href="`/problems/${props.curSolutionTitleSlug}/discuss/${item.id}/${item.title_format}`"
+          target="_blank"
+          >{{ langObj.originalLink }}</a
+        >
+        <p v-if="item.resolve" v-html="item.resolve"></p>
+      </a-spin>
+    </a-collapse-panel>
+  </a-collapse>
 </template>
 
 <script setup>
@@ -35,10 +40,7 @@ import apiMap from '@/api'
 import { langEnum } from './const'
 let langObj = ref(langEnum)
 
-import {
-  CaretUpOutlined,
-  EyeOutlined,
-} from '@ant-design/icons-vue'
+import { CaretUpOutlined, EyeOutlined } from '@ant-design/icons-vue'
 
 let activeKey = ref([])
 
@@ -59,10 +61,10 @@ const currentDiscussResolve = (index) => {
   const isExist = item.resolve
   if (!isExist) {
     spinning.value = true
-    apiMap.curDiscussResolve({ topicId: item.id }).then(res => {
+    apiMap.curDiscussResolve({ topicId: item.id }).then((res) => {
       emit('set-resolve', {
         index,
-        content: res.topic.post.content || ''
+        content: res.topic.post.content || '',
       })
       spinning.value = false
     })
