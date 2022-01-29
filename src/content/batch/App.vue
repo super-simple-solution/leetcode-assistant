@@ -16,7 +16,7 @@
     </template>
     <a-row :gutter="10">
       <a-col :span="12">
-        <p v-html="curDesc"></p>
+        <div v-html="curDesc"></div>
       </a-col>
       <a-col :span="12">
         <a-spin :spinning="spinning">
@@ -27,7 +27,7 @@
                 <a class="link-color" :href="`/problems/${metaData.info.questionName}/solution`" target="_blank">{{
                   langObj.originalLink
                 }}</a>
-                <p v-html="curEnSolution"></p>
+                <div v-html="curEnSolution"></div>
               </template>
               <span v-else-if="metaData.data.enSolutionGeted">No solution or Solution locked</span>
             </template>

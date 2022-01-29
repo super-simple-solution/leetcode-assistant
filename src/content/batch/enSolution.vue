@@ -10,12 +10,13 @@
           <a-col :span="3" class="flex items-center">
             <p class="flex items-center">
               <caret-up-outlined class="mr-10" />
+              <img src="../../assets/images/sort-up.png" />
               <span>{{ item.voteCountText }}</span>
             </p>
           </a-col>
           <a-col :span="3" class="flex items-center">
             <p class="flex items-center">
-              <eye-outlined class="mr-10" />
+              <img src="../../assets/images/eye.png" />
               <span>{{ item.viewCountText }}</span>
             </p>
           </a-col>
@@ -28,7 +29,7 @@
           target="_blank"
           >{{ langObj.originalLink }}</a
         >
-        <p v-if="item.resolve" v-html="item.resolve"></p>
+        <div v-if="item.resolve" v-html="item.resolve"></div>
       </a-spin>
     </a-collapse-panel>
   </a-collapse>
@@ -39,8 +40,6 @@ import apiMap from '@/api'
 
 import { langEnum } from './const'
 let langObj = ref(langEnum)
-
-import { CaretUpOutlined, EyeOutlined } from '@ant-design/icons-vue'
 
 let activeKey = ref([])
 

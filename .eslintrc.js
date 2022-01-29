@@ -3,11 +3,14 @@ module.exports = {
     node: true,
     browser: true,
     es6: true,
+    webextensions: true,
+    'vue/setup-compiler-macros': true,
   },
   plugins: ['vue', 'prettier'],
-  extends: ['eslint:recommended', 'plugin:vue/vue3-recommended', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:vue/vue3-recommended', 'prettier', './.eslintrc-auto-import.json'],
   rules: {
     'vue/require-default-prop': 'off',
+    'vue/no-v-html': 'off',
     'no-console': 0,
     'no-debugger': 0,
     quotes: [1, 'single'], //引号类型 `` "" ''

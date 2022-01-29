@@ -8,7 +8,7 @@
       <a class="link-color" :href="`/problems/${props.curSolutionTitleSlug}/solution/${item.slug}`" target="_blank">{{
         langObj.originalLink
       }}</a>
-      <p v-html="item.resolve"></p>
+      <div v-html="item.resolve"></div>
     </a-collapse-panel>
   </a-collapse>
 </template>

@@ -4,7 +4,7 @@ axios.defaults.withCredentials = false
 
 let service = axios.create({
   baseURL: `${location.origin}/graphql/`,
-  timeout: 30000 // 请求超时时间
+  timeout: 30000, // 请求超时时间
 })
 
 // service.interceptors.request.use(
@@ -17,13 +17,13 @@ let service = axios.create({
 // )
 
 service.interceptors.response.use(
-  response => {
+  (response) => {
     let data = response.data
     return data.data
   },
-  error => {
+  (error) => {
     return Promise.reject(error)
-  }
+  },
 )
 
 export default service
