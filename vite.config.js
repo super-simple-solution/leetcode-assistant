@@ -5,6 +5,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { chromeExtension } from 'rollup-plugin-chrome-extension'
 
+// https://juejin.cn/post/7012446423367024676#heading-12
+
 export default defineConfig({
   resolve: {
     alias: {
@@ -15,14 +17,10 @@ export default defineConfig({
     sourcemap: 'inline',
   },
   plugins: [
+    vue(),
     Components({
       resolvers: [AntDesignVueResolver()],
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
     }),
-    vue(),
     chromeExtension(),
   ],
-  configureWebpack: {
-    devtool: "true",
-  }
 })

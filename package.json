@@ -21,9 +21,8 @@
     "eslint-plugin-vue": "^8.2.0",
     "prettier": "^2.5.1",
     "rollup-plugin-chrome-extension": "^4.0.1-11",
-    "unplugin-vue-components": "^0.17.11",
+    "unplugin-vue-components": "^0.17.15",
     "vite": "^2.7.2",
-    "vite-plugin-style-import": "^1.4.1",
-    "vite-plugin-vue-crx3": "^1.0.8"
+    "vite-plugin-style-import": "^1.4.1"
   }
 }
