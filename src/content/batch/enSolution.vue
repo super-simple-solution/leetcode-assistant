@@ -30,7 +30,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import apiMap from '@/api'
 
 import { langEnum } from './const'

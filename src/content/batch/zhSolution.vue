@@ -13,7 +13,6 @@
 
 <script setup>
 import apiMap from '@/api'
-import { ref  } from 'vue'
 
 import { langEnum } from './const'
 let langObj = ref(langEnum)
