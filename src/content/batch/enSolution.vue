@@ -9,14 +9,13 @@
           <a-col :span="16" class="flex items-center">{{ item.title }}</a-col>
           <a-col :span="3" class="flex items-center">
             <p class="flex items-center">
-              <caret-up-outlined class="mr-10" />
-              <img src="../../assets/images/sort-up.png" />
+              <CaretUpOutlined class="mr-10" />
               <span>{{ item.voteCountText }}</span>
             </p>
           </a-col>
           <a-col :span="3" class="flex items-center">
             <p class="flex items-center">
-              <img src="../../assets/images/eye.png" />
+              <EyeOutlined class="mr-10" />
               <span>{{ item.viewCountText }}</span>
             </p>
           </a-col>
@@ -36,6 +35,7 @@
 </template>
 
 <script setup>
+import { CaretUpOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import apiMap from '@/api'
 
 import { langEnum } from './const'
