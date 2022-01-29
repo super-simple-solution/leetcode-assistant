@@ -1,11 +1,13 @@
 <template>
   <a-collapse v-model:activeKey="activeKey" accordion expand-icon-position="right" @change="currentSolutionResolve">
     <a-collapse-panel v-for="(item, index) in props.list" :key="index">
-      <template v-slot:header>
+      <template #header>
         <span>{{ item.title }}</span>
         <p>{{ item.desc }}</p>
       </template>
-      <a class="link-color" :href="`/problems/${props.curSolutionTitleSlug}/solution/${item.slug}`" target="_blank">{{ langObj.originalLink }}</a>
+      <a class="link-color" :href="`/problems/${props.curSolutionTitleSlug}/solution/${item.slug}`" target="_blank">{{
+        langObj.originalLink
+      }}</a>
       <p v-html="item.resolve"></p>
     </a-collapse-panel>
   </a-collapse>
@@ -20,7 +22,7 @@ let langObj = ref(langEnum)
 const activeKey = ref([])
 let props = defineProps({
   curSolutionTitleSlug: String,
-  list: Array
+  list: Array,
 })
 
 const emit = defineEmits(['set-resolve'])
@@ -31,10 +33,10 @@ const currentSolutionResolve = (index) => {
   let item = props.list[index]
   const isExist = item.resolve
   if (!isExist) {
-    apiMap.curSolutionResolve({ slug: item.slug }).then(res => {
+    apiMap.curSolutionResolve({ slug: item.slug }).then((res) => {
       emit('set-resolve', {
         index,
-        content: res.solutionArticle.content || ''
+        content: res.solutionArticle.content || '',
       })
     })
   }
