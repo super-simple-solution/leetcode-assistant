@@ -60,3 +60,7 @@
     width: 1px;
     height: 1px;
   }
+
+  .question-name {
+    line-height: 44px;
+  }
