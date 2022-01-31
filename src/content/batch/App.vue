@@ -120,7 +120,6 @@ const showSolution = () => {
           const data = res.questionSolutionArticles.edges || []
           const discussList = data.map((item) => {
             let count = (item.node.reactionsV2 || []).map((_v) => _v.count).reduce((cur, prev) => cur + prev, 0)
-            console.log(count, 34634634)
             return {
               ...item.node,
               key: item.node.slug,

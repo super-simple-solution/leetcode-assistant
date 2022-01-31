@@ -42,14 +42,15 @@
     color: #fff;
     background-color: #1890ff;
     border-color: #1890ff;
-    text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
-    box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+    /* text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px 0 rgb(0 0 0 / 5%); */
     border-radius: 8px;
     padding: 2px 3px;
     font-size: 12px;
     position: absolute;
     top: 10px;
     left: 50px;
+    min-width: 50px;
   }
 
   .solution-btn-parent {

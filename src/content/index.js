@@ -13,16 +13,16 @@ document.body.appendChild(hiddenEl)
 
 const patterns = {
   list: {
-    match: /problemset/,
+    match: /(problemset|problem-list)/,
     handler() {
-      let listContainer = getEle('[role="rowgroup"]')
+      let listContainer = getEle('[role="rowgroup"], section table tbody')
       list('.hidden-el')
       listContainer.addEventListener('click', (event) => {
         let target = event.target
         if (!target.classList.contains('solution-btn')) return
-        let targetItem = target.closest('[role="row"]')
+        let targetItem = target.closest('[role="row"], tbody>tr')
         let questionName = targetItem.querySelector('a').href.match(/problems\/([^?/]+)/)[1]
-        let questionFullName = targetItem.querySelector('.truncate').textContent
+        let questionFullName = targetItem.querySelector('.truncate, td:nth-child(2)').textContent
         const questionEvent = new CustomEvent('click-question', {
           detail: {
             questionName,
@@ -31,7 +31,7 @@ const patterns = {
         })
         window.dispatchEvent(questionEvent)
       })
-      let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"]'))
+      let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"],  section table tbody tr'))
       nodeList.forEach((item) => {
         let parentNode = item.children[3]
         parentNode.classList.add('solution-btn-parent')
@@ -61,4 +61,4 @@ function matchUrl() {
   }
 }
 
-setTimeout(matchUrl, 500)
+setTimeout(matchUrl, 3000)
