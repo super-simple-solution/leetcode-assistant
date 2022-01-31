@@ -2,7 +2,7 @@
   "name": "leetcode assistant",
   "version": "1.1",
   "manifest_version": 3,
-  "description": "quickly view question descriptions, discussions, and solutions",
+  "description": "Quickly view question descriptions, discussions, and solutions",
   "icons": {
     "16": "src/assets/icons/icon16.png",
     "32": "src/assets/icons/icon32.png",
