@@ -10,7 +10,9 @@
             <a-tab-pane :key="langObj.tab1.key" :tab="langObj.tab1.tab"></a-tab-pane>
             <a-tab-pane :key="langObj.tab2.key" :tab="langObj.tab2.tab"></a-tab-pane>
           </a-tabs>
-          <a-button v-else type="primary" size="small" @click="showSolution">{{ langObj.discuss }}</a-button>
+          <a-button v-else type="primary" size="small" class="mt-10" @click="showSolution">{{
+            langObj.discuss
+          }}</a-button>
         </a-col>
       </a-row>
     </template>
@@ -116,12 +118,18 @@ const showSolution = () => {
         })
         .then((res) => {
           const data = res.questionSolutionArticles.edges || []
-          const discussList = data.map((_v) => ({
-            ..._v.node,
-            key: _v.node.slug,
-            resolve: '',
-            desc: _v.node.summary.slice(0, 40),
-          }))
+          const discussList = data.map((item) => {
+            let count = (item.node.reactionsV2 || []).map((_v) => _v.count).reduce((cur, prev) => cur + prev, 0)
+            console.log(count, 34634634)
+            return {
+              ...item.node,
+              key: item.node.slug,
+              resolve: '',
+              desc: item.node.summary.slice(0, 40),
+              voteCountText: abbreviateNumber(count),
+              viewCountText: abbreviateNumber(item.node.hitCount),
+            }
+          })
           metaData.data.zhDiscussList = discussList
         })
         .finally(() => {
@@ -140,12 +148,12 @@ const handleTabChange = (key) => {
       .enDiscussList({ questionId })
       .then((res) => {
         const data = res.questionTopicsList.edges || []
-        const discussList = data.map((_v) => ({
-          ..._v.node,
+        const discussList = data.map((item) => ({
+          ...item.node,
           resove: '',
-          voteCountText: abbreviateNumber(_v.node.post.voteCount),
-          viewCountText: abbreviateNumber(_v.node.viewCount),
-          title_format: _v.node.title.replace(/\s/g, '-'),
+          voteCountText: abbreviateNumber(item.node.post.voteCount),
+          viewCountText: abbreviateNumber(item.node.viewCount),
+          title_format: item.node.title.replace(/\s/g, '-'),
         }))
         metaData.data.enDiscussList = discussList
       })
