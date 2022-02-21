@@ -42,3 +42,29 @@ export function createEle(option) {
   el.className = className
   return el
 }
+
+export function domMutation(targetNode, cb) {
+  let observer
+  const cbFun = debounce(function () {
+    cb()
+    observer.disconnect()
+  }, 200)
+  observer = new MutationObserver(cbFun)
+  const config = { childList: true, subtree: true }
+  observer.observe(targetNode, config)
+}
+
+// https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_debounce
+function debounce(func, wait, immediate) {
+  let timeout
+  return function () {
+    let context = this,
+      args = arguments
+    clearTimeout(timeout)
+    timeout = setTimeout(function () {
+      timeout = null
+      if (!immediate) func.apply(context, args)
+    }, wait)
+    if (immediate && !timeout) func.apply(context, args)
+  }
+}

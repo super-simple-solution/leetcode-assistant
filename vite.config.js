@@ -25,10 +25,13 @@ export default defineConfig({
     },
   },
   plugins: [
+    // visualizer(),
     vue(),
     chromeExtension(),
     Components({
       resolvers: [AntDesignVueResolver()],
+      dts: true,
+      include: [/\.vue$/, /\.vue\?vue/],
     }),
     eslintPlugin(),
     AutoImport({
@@ -39,7 +42,6 @@ export default defineConfig({
         /\.vue\?vue/, // .vue
         /\.md$/, // .md
       ],
-
       // global imports to register
       imports: [
         // presets

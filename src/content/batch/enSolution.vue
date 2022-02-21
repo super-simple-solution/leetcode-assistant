@@ -9,7 +9,7 @@
           <a-col :span="16" class="flex items-center">{{ item.title }}</a-col>
           <a-col :span="3" class="flex items-center">
             <p class="flex items-center">
-              <CaretUpOutlined class="mr-10" />
+              <LikeOutlined class="mr-10" />
               <span>{{ item.voteCountText }}</span>
             </p>
           </a-col>
@@ -35,6 +35,7 @@
 </template>
 
 <script setup>
+import { LikeOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import apiMap from '@/api'
 
 import { langEnum } from './const'
