@@ -1,0 +1,164 @@
+/**
+ * No mixins for output here.
+ * If you want to expose some mixins,
+ * define them to `legacy/common/styles/atomic`
+ */
+/* stylelint-disable */
+.floating-shadow {
+    -webkit-box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(158, 158, 158, 0.3);
+    border-radius: 0;
+    outline: none;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .dark-mode::-webkit-scrollbar-thumb {
+    background: rgba(245, 245, 245, 0.5);
+    border-radius: 0;
+    outline: none;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  /*
+  
+  XCode style (c) Angel Garcia <angelgarcia.mail@gmail.com>
+  
+  */
+  .hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #ffffff;
+    color: black;
+  }
+  .hljs-comment,
+  .hljs-quote {
+    color: #006a00;
+  }
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-literal {
+    color: #aa0d91;
+  }
+  .hljs-name {
+    color: #000088;
+  }
+  .hljs-variable,
+  .hljs-template-variable {
+    color: #666600;
+  }
+  .hljs-string {
+    color: #c41a16;
+  }
+  .hljs-regexp,
+  .hljs-link {
+    color: #008800;
+  }
+  .hljs-title,
+  .hljs-tag,
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-number,
+  .hljs-meta {
+    color: #1c00cf;
+  }
+  .hljs-section,
+  .hljs-class .hljs-title,
+  .hljs-type,
+  .hljs-attr,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-params {
+    color: #5c2699;
+  }
+  .hljs-attribute,
+  .hljs-subst {
+    color: #000000;
+  }
+  .hljs-formula {
+    background-color: #eeeeee;
+    font-style: italic;
+  }
+  .hljs-addition {
+    background-color: #baeeba;
+  }
+  .hljs-deletion {
+    background-color: #ffc8bd;
+  }
+  .hljs-selector-id,
+  .hljs-selector-class {
+    color: #9b703f;
+  }
+  .hljs-doctag,
+  .hljs-strong {
+    font-weight: bold;
+  }
+  .hljs-emphasis {
+    font-style: italic;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .pull-left {
+    float: left;
+  }
+  .pull-right {
+    float: right;
+  }
+  html {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    background-color: white;
+  }
+  *,
+  *::before,
+  *::after {
+    -webkit-box-sizing: inherit;
+            box-sizing: inherit;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    color: #212121;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro SC', 'SF Pro Text', 'PingFang SC', 'Arial', 'Hiragino Sans GB', 'Heiti SC', 'Microsoft Yahei', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  h1 {
+    font-size: 38px;
+    font-weight: 400;
+  }
+  h2 {
+    font-size: 28px;
+    font-weight: 400;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: 400;
+  }
+  h4 {
+    font-size: 18px;
+    font-weight: 400;
+  }
+  h5 {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  p,
+  input,
+  textarea,
+  select,
+  button {
+    font-size: 14px;
+    font-weight: 400;
+  }

@@ -1,6 +1,7 @@
 import { getEle, createEle } from '@/utils'
 import { langEnum } from './batch/const'
 import '@/style/desc.css'
+import '@/style/hljs.css'
 import list from './batch'
 const locationHref = window.location.href
 
