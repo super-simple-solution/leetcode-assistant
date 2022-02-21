@@ -1,11 +1,12 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { chromeExtension } from 'rollup-plugin-chrome-extension'
+// import { chromeExtension } from 'rollup-plugin-chrome-extension'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import eslintPlugin from 'vite-plugin-eslint'
+import { chromeExtension } from 'vite-plugin-chrome-extension'
 
 // https://juejin.cn/post/7012446423367024676#heading-12
 
@@ -17,6 +18,11 @@ export default defineConfig({
   },
   output: {
     sourcemap: 'inline',
+  },
+  build: {
+    rollupOptions: {
+      input: './manifest.json',
+    },
   },
   plugins: [
     vue(),
