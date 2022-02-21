@@ -26,9 +26,12 @@
           <template v-if="!isZH">
             <template v-if="metaData.activeKey == langObj.tab2.key">
               <template v-if="curEnSolution">
-                <a class="link-color" :href="`/problems/${metaData.info.questionName}/solution`" target="_blank">{{
-                  langObj.originalLink
-                }}</a>
+                <a
+                  class="link-color right"
+                  :href="`/problems/${metaData.info.questionName}/solution`"
+                  target="_blank"
+                  >{{ langObj.originalLink }}</a
+                >
                 <div v-html="curEnSolution"></div>
               </template>
               <span v-else-if="metaData.data.enSolutionGeted">No solution or Solution locked</span>

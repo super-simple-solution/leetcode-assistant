@@ -21,9 +21,12 @@
           </a-col>
         </a-row>
       </template>
-      <a class="link-color" :href="`/problems/${props.curSolutionTitleSlug}/solution/${item.slug}`" target="_blank">{{
-        langObj.originalLink
-      }}</a>
+      <a
+        class="link-color right"
+        :href="`/problems/${props.curSolutionTitleSlug}/solution/${item.slug}`"
+        target="_blank"
+        >{{ langObj.originalLink }}</a
+      >
       <div v-html="item.resolve"></div>
     </a-collapse-panel>
   </a-collapse>

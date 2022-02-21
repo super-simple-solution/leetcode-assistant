@@ -23,7 +23,7 @@
       </template>
       <a-spin :spinning="spinning">
         <a
-          class="link-color"
+          class="link-color right"
           :href="`/problems/${props.curSolutionTitleSlug}/discuss/${item.id}/${item.title_format}`"
           target="_blank"
           >{{ langObj.originalLink }}</a

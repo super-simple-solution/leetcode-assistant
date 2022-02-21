@@ -28,6 +28,10 @@
   text-decoration: none;
 }
 
+.right {
+  float: right;
+}
+
 .items-center {
     @extend .flex;
     align-items: center;
