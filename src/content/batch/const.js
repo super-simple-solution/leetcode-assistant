@@ -1,7 +1,7 @@
 const I18n = {
   en: {
     init: 'Description',
-    discuss: 'Get Discuss',
+    discuss: 'Get Discuss123',
     tab1: {
       tab: 'Discuss',
       key: 'discuss',
