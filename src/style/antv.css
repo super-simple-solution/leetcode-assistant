@@ -1,5 +1,5 @@
 .ant-drawer-body {
-  padding: 16px!important;
+  padding: 8px!important;
   overflow: hidden!important;
 }
 .ant-drawer-body>.ant-row {
@@ -22,5 +22,5 @@
   width: 100%;
 }
 .ant-tabs-top>.ant-tabs-nav {
-  margin: 0;
+  margin: 0!important;
 }

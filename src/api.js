@@ -84,6 +84,15 @@ const bodyGene = {
         variables: { topicId: topicId },
       }
     },
+    discussTags: (options) => {
+      const { questionId } = options
+      return {
+        operationName: 'discussQuestionTopicTags',
+        query:
+          'query discussQuestionTopicTags($tagType: String, $questionId: String!, $selectedTags: [String!]) {\n  discussQuestionTopicTags(tagType: $tagType, questionId: $questionId, selectedTags: $selectedTags) {\n    ...TopicTag\n    __typename\n  }\n}\n\nfragment TopicTag on DiscussTopicTagNode {\n  id\n  name\n  slug\n  numTopics\n  __typename\n}\n',
+        variables: { selectedTags: [], questionId },
+      }
+    },
   },
 }
 

@@ -53,6 +53,7 @@
               @set-resolve="setZhResolve"
             ></zh-solution>
           </template>
+          <a-pagination v-model:current="metaData.data.pageNum" :total="metaData.data.totalNum" show-less-items />
         </a-spin>
       </a-col>
     </a-row>
@@ -114,43 +115,46 @@ const showSolution = () => {
     if (!isZH.value) {
       handleTabChange(metaData.activeKey)
     } else {
+      getZhDiscussList()
+    }
+  }
+
+  const handleTabChange = (key) => {
+    let { questionName, questionId } = metaData.info
+    if (key === langEnum.tab1.key) {
+      if (enDiscussList.value.length) return
+      spinning.value = true
+      getEnDiscussList({
+        questionId,
+      })
+    } else {
+      if (metaData.data.enSolutionGeted) return
       spinning.value = true
       apiMap
-        .zhDiscussList({
-          questionName: metaData.info.questionName,
+        .solution({
+          questionName,
         })
         .then((res) => {
-          const data = res.questionSolutionArticles.edges || []
-          const discussList = data.map((item) => {
-            let count = (item.node.reactionsV2 || []).map((_v) => _v.count).reduce((cur, prev) => cur + prev, 0)
-            return {
-              ...item.node,
-              key: item.node.slug,
-              resolve: '',
-              desc: item.node.summary.slice(0, 40),
-              voteCountText: abbreviateNumber(count),
-              viewCountText: abbreviateNumber(item.node.hitCount),
-            }
-          })
-          metaData.data.zhDiscussList = discussList
+          let solution = res.question.solution?.content
+          if (solution) {
+            metaData.data.enSolution = parseContent(solution, questionName)
+          }
         })
         .finally(() => {
           spinning.value = false
+          metaData.data.enSolutionGeted = true
         })
     }
   }
-}
 
-const handleTabChange = (key) => {
-  let { questionName, questionId } = metaData.info
-  if (key === langEnum.tab1.key) {
-    if (enDiscussList.value.length) return
+  function getEnDiscussList(options) {
+    const { questionId, skip } = options
     spinning.value = true
     apiMap
-      .enDiscussList({ questionId })
+      .enDiscussList({ questionId, skip })
       .then((res) => {
-        const data = res.questionTopicsList.edges || []
-        const discussList = data.map((item) => ({
+        const { totalNum, edges = [] } = res.questionTopicsList
+        const discussList = edges.map((item) => ({
           ...item.node,
           resove: '',
           voteCountText: abbreviateNumber(item.node.post.voteCount),
@@ -158,26 +162,37 @@ const handleTabChange = (key) => {
           title_format: item.node.title.replace(/\s/g, '-'),
         }))
         metaData.data.enDiscussList = discussList
+        metaData.data.totalNum = totalNum
       })
       .finally(() => {
         spinning.value = false
       })
-  } else {
-    if (metaData.data.enSolutionGeted) return
+  }
+
+  function getZhDiscussList() {
     spinning.value = true
     apiMap
-      .solution({
-        questionName,
+      .zhDiscussList({
+        questionName: metaData.info.questionName,
       })
       .then((res) => {
-        let solution = res.question.solution?.content
-        if (solution) {
-          metaData.data.enSolution = parseContent(solution, questionName)
-        }
+        const { totalNum, edges = [] } = res.questionSolutionArticles
+        const discussList = edges.map((item) => {
+          let count = (item.node.reactionsV2 || []).map((_v) => _v.count).reduce((cur, prev) => cur + prev, 0)
+          return {
+            ...item.node,
+            key: item.node.slug,
+            resolve: '',
+            desc: item.node.summary.slice(0, 40),
+            voteCountText: abbreviateNumber(count),
+            viewCountText: abbreviateNumber(item.node.hitCount),
+          }
+        })
+        metaData.data.zhDiscussList = discussList
+        metaData.data.totalNum = totalNum
       })
       .finally(() => {
         spinning.value = false
-        metaData.data.enSolutionGeted = true
       })
   }
 }
@@ -209,6 +224,8 @@ function initData() {
       enSolutionGeted: false,
       zhDiscussList: [], // zh
       enDiscussList: [], // zh
+      totalNum: 0,
+      pageNum: 1,
     },
     info: {
       questionName: '',

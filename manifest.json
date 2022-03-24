@@ -18,9 +18,6 @@
       "js": [
         "src/content/index.js"
       ],
-      "css": [
-        "src/style/index.css"
-      ],
       "run_at": "document_idle",
       "matches": [
         "*://*.leetcode.com/*",
