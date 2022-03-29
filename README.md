@@ -7,4 +7,4 @@
   Vue3 + Vite + Antdv
   
   
-  <img src="src/assets/images/readme.gif" alt="image">
+  <img src="public/assets/images/readme.gif" alt="image">
