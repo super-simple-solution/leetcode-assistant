@@ -1,4 +1,4 @@
-import { getEle, createEle } from '@/utils'
+import { getEle, createEle, domMutation } from '@/utils'
 import { langEnum } from './batch/const'
 import '@/style/desc.css'
 import '@/style/hljs.css'
@@ -16,7 +16,15 @@ const patterns = {
   list: {
     match: /(problemset|problem-list)/,
     handler() {
-      let listContainer = getEle('[role="rowgroup"], section table tbody')
+      let selector = '[role="rowgroup"], section table tbody'
+      let listContainer = getEle(selector)
+      window.addHistoryListener('history', function () {
+        listContainer = getEle(selector)
+        domMutation(listContainer, () => {
+          console.log('dom change')
+          insertEl()
+        })
+      })
       list('.hidden-el')
       listContainer.addEventListener('click', (event) => {
         let target = event.target
@@ -32,24 +40,28 @@ const patterns = {
         })
         window.dispatchEvent(questionEvent)
       })
-      let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"],  section table tbody tr'))
-      nodeList.forEach((item) => {
-        let parentNode = item.children[3]
-        parentNode.classList.add('solution-btn-parent')
-        parentNode.appendChild(
-          createEle({
-            tag: 'button',
-            content: langEnum.init,
-            class: 'solution-btn',
-          }),
-        )
-      })
+      // insertEl()
     },
   },
   detail: {
     match: '',
     handler() {},
   },
+}
+
+function insertEl() {
+  let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"],  section table tbody tr'))
+  nodeList.forEach((item) => {
+    let parentNode = item.children[3]
+    parentNode.classList.add('solution-btn-parent')
+    parentNode.appendChild(
+      createEle({
+        tag: 'button',
+        content: langEnum.init,
+        class: 'solution-btn',
+      }),
+    )
+  })
 }
 
 function matchUrl() {

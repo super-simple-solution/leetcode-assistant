@@ -46,11 +46,11 @@ export function createEle(option) {
 export function domMutation(targetNode, cb) {
   let observer
   const cbFun = debounce(function () {
-    cb()
+    cb(...arguments)
     observer.disconnect()
   }, 200)
   observer = new MutationObserver(cbFun)
-  const config = { childList: true, subtree: true }
+  const config = { childList: true }
   observer.observe(targetNode, config)
 }
 
