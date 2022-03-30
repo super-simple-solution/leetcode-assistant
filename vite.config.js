@@ -27,7 +27,7 @@ export default defineConfig({
   plugins: [
     // visualizer(),
     vue(),
-    chromeExtension({ manifest }),
+    chromeExtension({ manifest, contentScripts: { preambleCode: false } }),
     Components({
       resolvers: [AntDesignVueResolver()],
       dts: true,

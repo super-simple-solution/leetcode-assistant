@@ -66,13 +66,25 @@ const bodyGene = {
         variables: { titleSlug: questionName },
       }
     },
+    getTags: (options) => {
+      const { questionId, selectedTags = [] } = options
+      return {
+        operationName: 'discussQuestionTopicTags',
+        query:
+          'query discussQuestionTopicTags($tagType: String, $questionId: String!, $selectedTags: [String!]) {\n  discussQuestionTopicTags(tagType: $tagType, questionId: $questionId, selectedTags: $selectedTags) {\n    ...TopicTag\n    __typename\n  }\n}\n\nfragment TopicTag on DiscussTopicTagNode {\n  id\n  name\n  slug\n  numTopics\n  __typename\n}\n',
+        variables: {
+          questionId,
+          selectedTags,
+        },
+      }
+    },
     enDiscussList: (options) => {
-      const { questionId, skip = 0 } = options
+      const { questionId, skip = 0, tags = [] } = options
       return {
         operationName: 'questionTopicsList',
         query:
           'query questionTopicsList($questionId: String!, $orderBy: TopicSortingOption, $skip: Int, $query: String, $first: Int!, $tags: [String!]) {\n  questionTopicsList(questionId: $questionId, orderBy: $orderBy, skip: $skip, query: $query, first: $first, tags: $tags) {\n    ...TopicsList\n    __typename\n  }\n}\n\nfragment TopicsList on TopicConnection {\n  totalNum\n  edges {\n    node {\n      id\n      title\n      commentCount\n      viewCount\n      pinned\n      tags {\n        name\n        slug\n        __typename\n      }\n      post {\n        id\n        voteCount\n        creationDate\n        isHidden\n        author {\n          username\n          isActive\n          nameColor\n          activeBadge {\n            displayName\n            icon\n            __typename\n          }\n          profile {\n            userAvatar\n            __typename\n          }\n          __typename\n        }\n        status\n        coinRewards {\n          ...CoinReward\n          __typename\n        }\n        __typename\n      }\n      lastComment {\n        id\n        post {\n          id\n          author {\n            isActive\n            username\n            __typename\n          }\n          peek\n          creationDate\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    cursor\n    __typename\n  }\n  __typename\n}\n\nfragment CoinReward on ScoreNode {\n  id\n  score\n  description\n  date\n  __typename\n}\n',
-        variables: { orderBy: 'most_votes', query: '', skip, first: 15, tags: [], questionId: questionId },
+        variables: { orderBy: 'most_votes', query: '', skip, first: 15, tags, questionId: questionId },
       }
     },
     curDiscussResolve: (options) => {
