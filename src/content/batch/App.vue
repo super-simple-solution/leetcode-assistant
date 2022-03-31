@@ -24,6 +24,15 @@
         <a-spin :spinning="spinning">
           <!-- en -->
           <template v-if="!isZH">
+            <div>
+              <!-- discuss tag -->
+              <span v-for="(item, index) in discussTagList" :key="index">
+                <a-tag v-if="item.active" color="#87d068" @click="selectByTag(item)">
+                  {{ item.slug }} （{{ item.numTopics }}）
+                </a-tag>
+                <a-tag v-else @click="selectByTag(item)"> {{ item.slug }} （{{ item.numTopics }} ） </a-tag>
+              </span>
+            </div>
             <template v-if="metaData.activeKey == langObj.tab2.key">
               <template v-if="curEnSolution">
                 <a
@@ -55,6 +64,7 @@
           </template>
           <a-pagination
             v-model:current="metaData.data.pageNum"
+            class="pagination"
             :total="metaData.data.totalNum"
             show-less-items
             @change="getDiscussList"
@@ -71,6 +81,7 @@ import { abbreviateNumber } from '@/utils'
 import parseContent from '@/utils/md-parse'
 import ZhSolution from './zhSolution.vue'
 import EnSolution from './enSolution.vue'
+import useTag from '@/use/useTag'
 
 import { langEnum } from './const'
 
@@ -114,14 +125,16 @@ function clickListener() {
     { capture: true },
   )
 }
-function handleTabChange(key) {
+// discuss tag
+let discussTagList = ref([])
+async function handleTabChange(key) {
   let { questionName, questionId } = metaData.info
   if (key === langEnum.tab1.key) {
     if (enDiscussList.value.length) return
     spinning.value = true
-    getEnDiscussList({
-      questionId,
-    })
+    getEnDiscussList({ questionId })
+    const { tags } = await useTag({ questionId: +questionId })
+    discussTagList.value = tags
   } else {
     if (metaData.data.enSolutionGeted) return
     spinning.value = true
@@ -204,12 +217,23 @@ function getZhDiscussList(options) {
     })
 }
 
+async function selectByTag(info) {
+  discussTagList.value = discussTagList.value.map((item) => ({
+    ...item,
+    active: item.id === info.id ? !item.active : item.active,
+  }))
+  const selectedTags = discussTagList.value.filter((item) => item.active).map((item) => item.slug)
+  getEnDiscussList({ questionId: info.questionId, tags: selectedTags })
+  const { tags } = await useTag({ questionId: +info.questionId, selectedTags })
+  discussTagList.value = tags
+}
+
 function showSolution() {
   if (!curEnSolution.value && !zhDiscussList.value.length && !enDiscussList.value.length) {
     if (!isZH.value) {
       handleTabChange(metaData.activeKey)
     } else {
-      getZhDiscussList()
+      getZhDiscussList({ questionName: metaData.info.questionName })
     }
   }
 }

@@ -46,6 +46,15 @@ const bodyGene = {
         variables: { slug: slug, orderBy: 'DEFAULT' },
       }
     },
+    discussTags: (options) => {
+      const { questionName } = options
+      return {
+        operationName: 'solutionTags',
+        variables: { questionSlug: questionName },
+        query:
+          'query solutionTags($questionSlug: String!) {\n  solutionTags(questionSlug: $questionSlug) {\n    allTags {\n      name\n      nameTranslated\n      slug\n      __typename\n    }\n    languageTags {\n      name\n      nameTranslated\n      slug\n      __typename\n    }\n    otherTags {\n      name\n      nameTranslated\n      slug\n      __typename\n    }\n    __typename\n  }\n}\n',
+      }
+    },
   },
   en: {
     desc: (options) => {
@@ -97,12 +106,12 @@ const bodyGene = {
       }
     },
     discussTags: (options) => {
-      const { questionId } = options
+      const { questionId, selectedTags = [] } = options
       return {
         operationName: 'discussQuestionTopicTags',
         query:
           'query discussQuestionTopicTags($tagType: String, $questionId: String!, $selectedTags: [String!]) {\n  discussQuestionTopicTags(tagType: $tagType, questionId: $questionId, selectedTags: $selectedTags) {\n    ...TopicTag\n    __typename\n  }\n}\n\nfragment TopicTag on DiscussTopicTagNode {\n  id\n  name\n  slug\n  numTopics\n  __typename\n}\n',
-        variables: { selectedTags: [], questionId },
+        variables: { selectedTags, questionId },
       }
     },
   },
