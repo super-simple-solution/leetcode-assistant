@@ -26,7 +26,7 @@
           <template v-if="!isZH">
             <div>
               <!-- discuss tag -->
-              <span v-for="(item, index) in discussTagList" :key="index">
+              <span v-for="(item, index) in metaData.tag.enList" :key="index">
                 <a-tag v-if="item.active" color="#87d068" @click="selectByTag(item)">
                   {{ item.slug }} （{{ item.numTopics }}）
                 </a-tag>
@@ -56,6 +56,12 @@
           </template>
           <!-- zh -->
           <template v-else-if="zhDiscussList.length">
+            <span v-for="(item, index) in metaData.tag.zhList" :key="index">
+              <a-tag v-if="item.active" color="#87d068" @click="selectByTag(item)">
+                {{ item.slug }}
+              </a-tag>
+              <a-tag v-else @click="selectByTag(item)"> {{ item.slug }} </a-tag>
+            </span>
             <zh-solution
               :cur-solution-title-slug="metaData.info.titleSlug"
               :list="zhDiscussList"
@@ -126,7 +132,6 @@ function clickListener() {
   )
 }
 // discuss tag
-let discussTagList = ref([])
 async function handleTabChange(key) {
   let { questionName, questionId } = metaData.info
   if (key === langEnum.tab1.key) {
@@ -134,7 +139,7 @@ async function handleTabChange(key) {
     spinning.value = true
     getEnDiscussList({ questionId })
     const { tags } = await useTag({ questionId: +questionId })
-    discussTagList.value = tags
+    metaData.tag.enList = tags
   } else {
     if (metaData.data.enSolutionGeted) return
     spinning.value = true
@@ -218,22 +223,35 @@ function getZhDiscussList(options) {
 }
 
 async function selectByTag(info) {
-  discussTagList.value = discussTagList.value.map((item) => ({
-    ...item,
-    active: item.id === info.id ? !item.active : item.active,
-  }))
-  const selectedTags = discussTagList.value.filter((item) => item.active).map((item) => item.slug)
-  getEnDiscussList({ questionId: info.questionId, tags: selectedTags })
-  const { tags } = await useTag({ questionId: +info.questionId, selectedTags })
-  discussTagList.value = tags
+  if (isZH) {
+    metaData.tag.zhList = metaData.tag.zhList.map((item) => ({
+      ...item,
+      active: item.slug === info.slug ? !item.active : item.active,
+    }))
+    const selectedTags = metaData.tag.zhList.filter((item) => item.active).map((item) => item.slug)
+    getZhDiscussList({ questionName: info.questionName, tagSlugs: selectedTags })
+    const { tags } = await useTag({ questionName: info.questionName, selectedTags })
+    metaData.tag.zhList = tags
+  } else {
+    metaData.tag.enList = metaData.tag.enList.map((item) => ({
+      ...item,
+      active: item.id === info.id ? !item.active : item.active,
+    }))
+    const selectedTags = metaData.tag.enList.filter((item) => item.active).map((item) => item.slug)
+    getEnDiscussList({ questionId: info.questionId, tags: selectedTags })
+    const { tags } = await useTag({ questionId: +info.questionId, selectedTags })
+    metaData.tag.enList = tags
+  }
 }
 
-function showSolution() {
+async function showSolution() {
   if (!curEnSolution.value && !zhDiscussList.value.length && !enDiscussList.value.length) {
     if (!isZH.value) {
       handleTabChange(metaData.activeKey)
     } else {
       getZhDiscussList({ questionName: metaData.info.questionName })
+      const { tags } = await useTag({ questionName: metaData.info.questionName })
+      metaData.tag.zhList = tags
     }
   }
 }
@@ -274,6 +292,10 @@ function initData() {
       questionFullNameZH: '',
       questionId: '',
       titleSlug: '',
+    },
+    tag: {
+      enList: [],
+      zhList: [],
     },
   }
 }
