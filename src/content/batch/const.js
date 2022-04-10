@@ -14,7 +14,7 @@ const I18n = {
   },
   zh: {
     init: '描述',
-    discuss: '获取题解',
+    discuss: '获取讨论',
     originalLink: '查看原文',
     tab1: {
       tab: '',

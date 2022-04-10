@@ -22,17 +22,7 @@
       </a-col>
       <a-col :span="12">
         <a-spin :spinning="spinning">
-          <!-- en -->
           <template v-if="!isZH">
-            <div>
-              <!-- discuss tag -->
-              <span v-for="(item, index) in metaData.tag.enList" :key="index">
-                <a-tag v-if="item.active" color="#87d068" @click="selectByTag(item)">
-                  {{ item.slug }} （{{ item.numTopics }}）
-                </a-tag>
-                <a-tag v-else @click="selectByTag(item)"> {{ item.slug }} （{{ item.numTopics }} ） </a-tag>
-              </span>
-            </div>
             <template v-if="metaData.activeKey == langObj.tab2.key">
               <template v-if="curEnSolution">
                 <a
@@ -45,23 +35,37 @@
               </template>
               <span v-else-if="metaData.data.enSolutionGeted">No solution or Solution locked</span>
             </template>
-            <en-solution
-              v-else-if="enDiscussList.length"
-              :cur-solution-id="metaData.info.questionId"
-              :cur-solution-title-slug="metaData.info.titleSlug"
-              :list="enDiscussList"
-              @set-resolve="setEnResolve"
-            ></en-solution>
+            <template v-else-if="enDiscussList.length">
+              <!-- discuss tag -->
+              Tags:
+              <template v-for="(item, index) in metaData.tag.enList" :key="index">
+                <a-checkable-tag
+                  :checked="selectedTags.indexOf(item.slug) > -1"
+                  @change="(checked) => handleChange(item, checked)"
+                >
+                  {{ item.slug }}
+                </a-checkable-tag>
+              </template>
+              <en-solution
+                :cur-solution-id="metaData.info.questionId"
+                :cur-solution-title-slug="metaData.info.titleSlug"
+                :list="enDiscussList"
+                @set-resolve="setEnResolve"
+              ></en-solution>
+            </template>
             <a-button v-else type="primary" size="small" @click="showSolution">{{ langObj.discuss }}</a-button>
           </template>
           <!-- zh -->
           <template v-else-if="zhDiscussList.length">
-            <span v-for="(item, index) in metaData.tag.zhList" :key="index">
-              <a-tag v-if="item.active" color="#87d068" @click="selectByTag(item)">
+            Tags:
+            <template v-for="(item, index) in metaData.tag.zhList" :key="index">
+              <a-checkable-tag
+                :checked="selectedTags.indexOf(item.slug) > -1"
+                @change="(checked) => handleChange(item, checked)"
+              >
                 {{ item.slug }}
-              </a-tag>
-              <a-tag v-else @click="selectByTag(item)"> {{ item.slug }} </a-tag>
-            </span>
+              </a-checkable-tag>
+            </template>
             <zh-solution
               :cur-solution-title-slug="metaData.info.titleSlug"
               :list="zhDiscussList"
@@ -69,10 +73,11 @@
             ></zh-solution>
           </template>
           <a-pagination
+            v-if="langObj.tab1.key === metaData.activeKey"
             v-model:current="metaData.data.pageNum"
             class="pagination"
+            size="small"
             :total="metaData.data.totalNum"
-            show-less-items
             @change="getDiscussList"
           />
         </a-spin>
@@ -221,25 +226,19 @@ function getZhDiscussList(options) {
       spinning.value = false
     })
 }
-
-async function selectByTag(info) {
-  if (isZH) {
-    metaData.tag.zhList = metaData.tag.zhList.map((item) => ({
-      ...item,
-      active: item.slug === info.slug ? !item.active : item.active,
-    }))
-    const selectedTags = metaData.tag.zhList.filter((item) => item.active).map((item) => item.slug)
-    getZhDiscussList({ questionName: info.questionName, tagSlugs: selectedTags })
-    const { tags } = await useTag({ questionName: info.questionName, selectedTags })
+let selectedTags = ref([])
+async function handleChange(item, checked) {
+  const nextSelectedTags = checked
+    ? [...selectedTags.value, item.slug]
+    : selectedTags.value.filter((t) => t !== item.slug)
+  selectedTags.value = nextSelectedTags
+  if (isZH.value) {
+    getZhDiscussList({ questionName: item.questionName, tagSlugs: selectedTags.value })
+    const { tags } = await useTag({ questionName: item.questionName, selectedTags: selectedTags.value })
     metaData.tag.zhList = tags
   } else {
-    metaData.tag.enList = metaData.tag.enList.map((item) => ({
-      ...item,
-      active: item.id === info.id ? !item.active : item.active,
-    }))
-    const selectedTags = metaData.tag.enList.filter((item) => item.active).map((item) => item.slug)
-    getEnDiscussList({ questionId: info.questionId, tags: selectedTags })
-    const { tags } = await useTag({ questionId: +info.questionId, selectedTags })
+    getEnDiscussList({ questionId: item.questionId, tags: selectedTags.value })
+    const { tags } = await useTag({ questionId: +item.questionId, selectedTags: selectedTags.value })
     metaData.tag.enList = tags
   }
 }
