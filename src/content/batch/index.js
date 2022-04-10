@@ -1,5 +1,5 @@
 import App from './App.vue'
-import '@/style/index.css'
+import '@/style/index.scss'
 import '@/style/antv.css'
 import { getEle } from '@/utils'
 

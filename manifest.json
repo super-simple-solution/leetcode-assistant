@@ -1,6 +1,6 @@
 {
   "name": "leetcode assistant",
-  "version": "1.11",
+  "version": "1.12",
   "manifest_version": 3,
   "description": "Quickly view question descriptions, discussions, and solutions",
   "icons": {

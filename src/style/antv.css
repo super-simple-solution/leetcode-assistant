@@ -4,11 +4,15 @@
 }
 .ant-drawer-body>.ant-row {
   height: 100%;
+  width: 100% !important;
   overflow: hidden;
 }
 .ant-drawer-body>.ant-row>.ant-col {
   height: 100%;
   overflow-y: auto;
+}
+.ant-row {
+  width: 100% !important;
 }
 .ant-drawer-header {
   padding: 0 16px!important;
