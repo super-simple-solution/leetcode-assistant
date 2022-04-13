@@ -30,7 +30,7 @@ export function initData() {
 }
 
 export function getEnDiscussList(options) {
-  apiMap.enDiscussList(options).then((res) => {
+  return apiMap.enDiscussList(options).then((res) => {
     const { totalNum, edges = [] } = res.questionTopicsList
     const discussList = edges.map((item) => ({
       ...item.node,
@@ -47,7 +47,7 @@ export function getEnDiscussList(options) {
 }
 
 export function getZhDiscussList(options) {
-  apiMap.zhDiscussList(options).then((res) => {
+  return apiMap.zhDiscussList(options).then((res) => {
     const { totalNum, edges = [] } = res.questionSolutionArticles
     const discussList = edges.map((item) => {
       let count = (item.node.reactionsV2 || []).map((_v) => _v.count).reduce((cur, prev) => cur + prev, 0)

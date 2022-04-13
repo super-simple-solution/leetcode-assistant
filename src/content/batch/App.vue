@@ -7,11 +7,11 @@
         </a-col>
         <a-col :span="12">
           <a-tabs v-if="!isZH" v-model:activeKey="metaData.activeKey" @change="handleTabChange">
-            <a-tab-pane :key="langObj.tab1.key" :tab="langObj.tab1.tab"></a-tab-pane>
-            <a-tab-pane :key="langObj.tab2.key" :tab="langObj.tab2.tab"></a-tab-pane>
+            <a-tab-pane :key="langEnum.tab1.key" :tab="langEnum.tab1.tab"></a-tab-pane>
+            <a-tab-pane :key="langEnum.tab2.key" :tab="langEnum.tab2.tab"></a-tab-pane>
           </a-tabs>
           <a-button v-else type="primary" size="small" class="mt-10" @click="showSolution">{{
-            langObj.discuss
+            langEnum.discuss
           }}</a-button>
         </a-col>
       </a-row>
@@ -23,13 +23,13 @@
       <a-col :span="12">
         <a-spin :spinning="spinning">
           <template v-if="!isZH">
-            <template v-if="metaData.activeKey == langObj.tab2.key">
+            <template v-if="metaData.activeKey == langEnum.tab2.key">
               <template v-if="curEnSolution">
                 <a
                   class="link-color right"
                   :href="`/problems/${metaData.info.questionName}/solution`"
                   target="_blank"
-                  >{{ langObj.originalLink }}</a
+                  >{{ langEnum.originalLink }}</a
                 >
                 <div v-html="curEnSolution"></div>
               </template>
@@ -40,7 +40,7 @@
               Tags:
               <template v-for="(item, index) in metaData.tag.enList" :key="index">
                 <a-checkable-tag
-                  :checked="selectedTags.indexOf(item.slug) > -1"
+                  :checked="selectedTags.includes(item.slug)"
                   @change="(checked) => handleChange(item, checked)"
                 >
                   {{ item.slug }}
@@ -53,14 +53,14 @@
                 @set-resolve="setEnResolve"
               ></en-solution>
             </template>
-            <a-button v-else type="primary" size="small" @click="showSolution">{{ langObj.discuss }}</a-button>
+            <a-button v-else type="primary" size="small" @click="showSolution">{{ langEnum.discuss }}</a-button>
           </template>
           <!-- zh -->
           <template v-else-if="zhDiscussList.length">
             Tags:
             <template v-for="(item, index) in metaData.tag.zhList" :key="index">
               <a-checkable-tag
-                :checked="selectedTags.indexOf(item.slug) > -1"
+                :checked="selectedTags.includes(item.slug)"
                 @change="(checked) => handleChange(item, checked)"
               >
                 {{ item.slug }}
@@ -98,8 +98,6 @@ import { isZH } from './const'
 import { langEnum } from './const'
 
 let metaData = reactive(initData())
-
-let langObj = langEnum
 
 let spinning = ref(false)
 
@@ -241,9 +239,9 @@ const curEnSolution = computed(() => metaData.data?.enSolution)
 const zhDiscussList = computed(() => metaData.data?.zhDiscussList)
 const enDiscussList = computed(() => metaData.data?.enDiscussList)
 const curQuestionName = computed(() => metaData.info?.questionFullName)
-const showPagination = computed(
-  () => langObj.tab1.key === metaData.activeKey && (zhDiscussList.length || enDiscussList.length),
-)
+const showPagination = computed(() => {
+  return langEnum.tab1?.key === metaData.data?.activeKey && (zhDiscussList.length || enDiscussList.length)
+})
 
 function reset() {
   Object.assign(metaData, initData())
