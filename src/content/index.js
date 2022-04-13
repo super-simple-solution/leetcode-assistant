@@ -1,8 +1,8 @@
 import { getEle, createEle } from '@/utils'
-import { langEnum } from './batch/const'
+import { langEnum } from './list/const'
 import '@/style/desc.css'
 import '@/style/hljs.css'
-import list from './batch'
+import list from './list'
 const locationHref = window.location.href
 
 // unvisible element to mount on
@@ -29,7 +29,7 @@ const patterns = {
         parentNode.appendChild(
           createEle({
             tag: 'button',
-            content: langEnum.init,
+            content: langEnum.desc,
             class: 'solution-btn',
           }),
         )

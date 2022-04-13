@@ -35,13 +35,13 @@
               </template>
               <span v-else-if="metaData.data.enSolutionGeted">No solution or Solution locked</span>
             </template>
-            <template v-else-if="enDiscussList.length">
+            <template v-else-if="discussList.length">
               <!-- discuss tag -->
               Tags:
-              <template v-for="(item, index) in metaData.tag.enList" :key="index">
+              <template v-for="(item, index) in metaData.tagList" :key="index">
                 <a-checkable-tag
                   :checked="selectedTags.includes(item.slug)"
-                  @change="(checked) => handleChange(item, checked)"
+                  @change="(checked) => tagChange(item, checked)"
                 >
                   {{ item.slug }}
                 </a-checkable-tag>
@@ -49,27 +49,27 @@
               <en-solution
                 :cur-solution-id="metaData.info.questionId"
                 :cur-solution-title-slug="metaData.info.titleSlug"
-                :list="enDiscussList"
-                @set-resolve="setEnResolve"
+                :list="discussList"
+                @set-resolve="setResolve"
               ></en-solution>
             </template>
             <a-button v-else type="primary" size="small" @click="showSolution">{{ langEnum.discuss }}</a-button>
           </template>
           <!-- zh -->
-          <template v-else-if="zhDiscussList.length">
+          <template v-else-if="discussList.length">
             Tags:
-            <template v-for="(item, index) in metaData.tag.zhList" :key="index">
+            <template v-for="(item, index) in metaData.tagList" :key="index">
               <a-checkable-tag
                 :checked="selectedTags.includes(item.slug)"
-                @change="(checked) => handleChange(item, checked)"
+                @change="(checked) => tagChange(item, checked)"
               >
                 {{ item.slug }}
               </a-checkable-tag>
             </template>
             <zh-solution
               :cur-solution-title-slug="metaData.info.titleSlug"
-              :list="zhDiscussList"
-              @set-resolve="setZhResolve"
+              :list="discussList"
+              @set-resolve="setResolve"
             ></zh-solution>
           </template>
           <a-pagination
@@ -89,8 +89,8 @@
 <script setup>
 import apiMap from '@/api'
 import parseContent from '@/utils/md-parse'
-import ZhSolution from './zhSolution.vue'
-import EnSolution from './enSolution.vue'
+import ZhSolution from './components/zhSolution.vue'
+import EnSolution from './components/enSolution.vue'
 import useTag from '@/use/useTag'
 import { initData, getEnDiscussList, getZhDiscussList } from './util'
 import { isZH } from './const'
@@ -137,10 +137,10 @@ function clickListener() {
 async function handleTabChange(key) {
   let { questionName, questionId } = metaData.info
   if (key === langEnum.tab1.key) {
-    if (enDiscussList.value.length) return
+    if (discussList.value.length) return
     getDiscussList()
     const { tags } = await useTag({ questionId: +questionId })
-    metaData.tag.enList = tags
+    metaData.tagList = tags
   } else {
     if (metaData.data.enSolutionGeted) return
     spinning.value = true
@@ -191,56 +191,52 @@ function getDiscussList(options = {}) {
 }
 
 function discussListCb(data) {
-  let listKey = isZH ? 'zhDiscussList' : 'enDiscussList'
-  metaData.data[listKey] = data.discussList
+  metaData.data.discussList = data.discussList
   metaData.data.totalNum = data.totalNum
 }
 
 let selectedTags = ref([])
-async function handleChange(item, checked) {
+async function tagChange(item, checked) {
   const nextSelectedTags = checked
     ? [...selectedTags.value, item.slug]
     : selectedTags.value.filter((t) => t !== item.slug)
   selectedTags.value = nextSelectedTags
   let discussParams
+  let tagParams
   if (isZH) {
     discussParams = { questionName: item.questionName, tagSlugs: selectedTags.value }
-    const { tags } = await useTag({ questionName: item.questionName, selectedTags: selectedTags.value })
-    metaData.tag.zhList = tags
+    tagParams = { questionName: item.questionName, selectedTags: selectedTags.value }
   } else {
     discussParams = { questionId: item.questionId, tags: selectedTags.value }
-    const { tags } = await useTag({ questionId: +item.questionId, selectedTags: selectedTags.value })
-    metaData.tag.enList = tags
+    tagParams = { questionId: +item.questionId, selectedTags: selectedTags.value }
   }
+  const { tags } = await useTag(tagParams)
+  metaData.tagList = tags
   getDiscussList(discussParams)
 }
 
 async function showSolution() {
-  if (!curEnSolution.value && !zhDiscussList.value.length && !enDiscussList.value.length) {
+  if (!curEnSolution.value && !discussList.value.length) {
     if (!isZH) {
       handleTabChange(metaData.activeKey)
     } else {
       getDiscussList()
       const { tags } = await useTag({ questionName: metaData.info.questionName })
-      metaData.tag.zhList = tags
+      metaData.tagList = tags
     }
   }
 }
 
-function setEnResolve({ index, content }) {
-  enDiscussList.value[index].resolve = parseContent(content, metaData.info.questionName)
-}
-function setZhResolve({ index, content }) {
-  zhDiscussList.value[index].resolve = parseContent(content, metaData.info.questionName)
+function setResolve({ index, content }) {
+  discussList.value[index].resolve = parseContent(content, metaData.info.questionName)
 }
 
 const curDesc = computed(() => metaData.data?.[isZH ? 'descZH' : 'desc'])
 const curEnSolution = computed(() => metaData.data?.enSolution)
-const zhDiscussList = computed(() => metaData.data?.zhDiscussList)
-const enDiscussList = computed(() => metaData.data?.enDiscussList)
+const discussList = computed(() => metaData.data?.discussList)
 const curQuestionName = computed(() => metaData.info?.questionFullName)
 const showPagination = computed(() => {
-  return langEnum.tab1?.key === metaData.data?.activeKey && (zhDiscussList.length || enDiscussList.length)
+  return langEnum.tab1?.key === metaData.data?.activeKey && discussList.data.length
 })
 
 function reset() {

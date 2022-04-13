@@ -26,7 +26,7 @@
           class="link-color right"
           :href="`/problems/${props.curSolutionTitleSlug}/discuss/${item.id}/${item.title_format}`"
           target="_blank"
-          >{{ langObj.originalLink }}</a
+          >{{ langEnum.originalLink }}</a
         >
         <div v-if="item.resolve" v-html="item.resolve"></div>
       </a-spin>
@@ -38,8 +38,7 @@
 import { LikeOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import apiMap from '@/api'
 
-import { langEnum } from './const'
-let langObj = ref(langEnum)
+import { langEnum } from '../const'
 
 let activeKey = ref([])
 

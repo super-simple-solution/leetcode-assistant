@@ -1,6 +1,6 @@
 const I18n = {
   en: {
-    init: 'Description',
+    desc: 'Description',
     discuss: 'Get Discuss',
     tab1: {
       tab: 'Discuss',
@@ -13,7 +13,7 @@ const I18n = {
     originalLink: 'Original Link',
   },
   zh: {
-    init: '描述',
+    desc: '描述',
     discuss: '获取讨论',
     originalLink: '查看原文',
     tab1: {

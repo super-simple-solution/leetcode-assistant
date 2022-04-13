@@ -10,8 +10,7 @@ export function initData() {
       descZH: '',
       enSolution: '',
       enSolutionGeted: false,
-      zhDiscussList: [], // zh
-      enDiscussList: [], // zh
+      discussList: [], // zh
       totalNum: 0,
       pageNum: 1,
     },
@@ -22,10 +21,7 @@ export function initData() {
       questionId: '',
       titleSlug: '',
     },
-    tag: {
-      enList: [],
-      zhList: [],
-    },
+    tagList: [],
   }
 }
 
