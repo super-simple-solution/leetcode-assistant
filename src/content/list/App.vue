@@ -163,7 +163,7 @@ async function handleTabChange(key) {
 
 function getDiscussList(options = {}) {
   spinning.value = true
-  let { questionName, questionId } = {
+  let { questionName, questionId, tagSlugs, tags } = {
     ...metaData.info,
     ...options,
   }
@@ -175,12 +175,14 @@ function getDiscussList(options = {}) {
     params = {
       questionName,
       skip,
+      tagSlugs,
     }
   } else {
     api = getEnDiscussList
     params = {
       questionId,
       skip,
+      tags,
     }
   }
   api(params)
@@ -236,7 +238,7 @@ const curEnSolution = computed(() => metaData.data?.enSolution)
 const discussList = computed(() => metaData.data?.discussList)
 const curQuestionName = computed(() => metaData.info?.questionFullName)
 const showPagination = computed(() => {
-  return langEnum.tab1?.key === metaData.data?.activeKey && discussList.data.length
+  return langEnum.tab1?.key === metaData.data?.activeKey && discussList.value.length
 })
 
 function reset() {

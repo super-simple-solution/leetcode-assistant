@@ -14,7 +14,7 @@ specifiers:
   katex: ^0.15.2
   markdown-it: ^12.3.2
   prettier: ^2.5.1
-  rollup-plugin-chrome-extension: ^4.0.1-22
+  rollup-plugin-chrome-extension: ^4.0.1-24
   rollup-plugin-visualizer: ^5.5.4
   sass: ^1.50.0
   unplugin-auto-import: ^0.7.1
@@ -42,7 +42,7 @@ devDependencies:
   eslint-plugin-prettier: 4.0.0_1c588f61426b1faf18812943f1678311
   eslint-plugin-vue: 8.2.0_eslint@8.6.0
   prettier: 2.5.1
-  rollup-plugin-chrome-extension: 4.0.1-22_vite@2.9.3
+  rollup-plugin-chrome-extension: 4.0.1-24_vite@2.9.3
   rollup-plugin-visualizer: registry.npmmirror.com/rollup-plugin-visualizer/5.5.4
   sass: registry.npmmirror.com/sass/1.50.0
   unplugin-auto-import: 0.7.1_vite@2.9.3
@@ -1174,6 +1174,10 @@ packages:
     resolution: {integrity: sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==}
     dependencies:
       is-arrayish: 0.2.1
+    dev: true
+
+  /es-module-lexer/0.10.5:
+    resolution: {integrity: sha512-+7IwY/kiGAacQfY+YBhKMvEmyAJnw5grTUgjG85Pe7vcUI/6b7pZjZG8nQ7+48YhzEAEqrEgD2dCz/JIK+AYvw==}
     dev: true
 
   /es-module-lexer/0.9.3:
@@ -2340,16 +2344,10 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
-  /react-refresh/0.11.0:
-    resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==}
-    engines: {node: '>=0.10.0'}
-    dev: true
-
   /react-refresh/0.12.0:
     resolution: {integrity: sha512-suLIhrU2IHKL5JEKR/fAwJv7bbeq4kJ+pJopf77jHwuR+HmJS/HbrPIGsTBUVfw7tXPOmYv7UJ7PCaN49e8x4A==}
     engines: {node: '>=0.10.0'}
     dev: true
-    optional: true
 
   /readdirp/3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
@@ -2402,25 +2400,25 @@ packages:
       glob: 7.2.0
     dev: true
 
-  /rollup-plugin-chrome-extension/4.0.1-22_vite@2.9.3:
-    resolution: {integrity: sha512-mb5FyFvlHMkNXYrA3hqRxHKek6dRcjkFl5laYo6olk2Tm75nixKYbRvsHoRZgpNfBUYuGB12AtdDeGqD+HmCkQ==}
+  /rollup-plugin-chrome-extension/4.0.1-24_vite@2.9.3:
+    resolution: {integrity: sha512-Izfhe9zx7es8ElAr0QftXO8zJP8Fxo/aRAmYHx4HNBgyc4J5cFfGacZY7q0SmHS5GdPnIZodV/6R0qIcOqnBQA==}
     engines: {node: '>=14'}
     peerDependencies:
       vite: ^2.8.0
     dependencies:
-      '@rollup/pluginutils': 4.1.2
+      '@rollup/pluginutils': 4.2.0
       '@webcomponents/custom-elements': 1.5.0
       acorn-walk: 8.2.0
       cheerio: 1.0.0-rc.10
       connect-injector: 0.4.4
-      debug: 4.3.3
-      es-module-lexer: 0.9.3
+      debug: 4.3.4
+      es-module-lexer: 0.10.5
       fast-glob: 3.2.11
       fs-extra: 10.0.1
       jsesc: 3.0.2
-      magic-string: 0.25.7
+      magic-string: 0.26.1
       picocolors: 1.0.0
-      react-refresh: 0.11.0
+      react-refresh: 0.12.0
       rollup: 2.70.1
       vite: 2.9.3_sass@1.50.0
     optionalDependencies:

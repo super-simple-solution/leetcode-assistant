@@ -3,11 +3,10 @@ import '@/style/index.scss'
 import '@/style/antv.css'
 import { getEle } from '@/utils'
 
-export default function (dom) {
-  let container = getEle(dom)
+export default function (el) {
+  let container = getEle(el)
   if (!container) return
 
   const app = createApp(App)
-  if (!getEle(dom)) return
-  app.mount(dom)
+  app.mount(el)
 }
