@@ -117,8 +117,8 @@ const bodyGene = {
   },
 }
 
-let apiMap = {}
-for (let key in bodyGene[lang]) {
+const apiMap = {}
+for (const key in bodyGene[lang]) {
   apiMap[key] = (options) => service.post('', bodyGene[lang][key](options), config)
 }
 

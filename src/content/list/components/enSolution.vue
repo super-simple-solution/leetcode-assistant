@@ -35,14 +35,15 @@
 </template>
 
 <script setup>
+import { defineProps, defineEmits } from 'vue'
 import { LikeOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import apiMap from '@/api'
 
 import { langEnum } from '../const'
 
-let activeKey = ref([])
+const activeKey = ref([])
 
-let props = defineProps({
+const props = defineProps({
   curSolutionTitleSlug: String,
   list: Array,
 })
@@ -50,12 +51,12 @@ let props = defineProps({
 const emit = defineEmits(['set-resolve'])
 
 // get dicuss resove
-let spinning = ref(false)
-let curIndex = ref()
+const spinning = ref(false)
+const curIndex = ref()
 const currentDiscussResolve = (index) => {
   if (index === undefined) return
   curIndex.value = index
-  let item = props.list[index]
+  const item = props.list[index]
   const isExist = item.resolve
   if (!isExist) {
     spinning.value = true

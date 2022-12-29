@@ -46,7 +46,7 @@ export function getZhDiscussList(options) {
   return apiMap.zhDiscussList(options).then((res) => {
     const { totalNum, edges = [] } = res.questionSolutionArticles
     const discussList = edges.map((item) => {
-      let count = (item.node.reactionsV2 || []).map((_v) => _v.count).reduce((cur, prev) => cur + prev, 0)
+      const count = (item.node.reactionsV2 || []).map((_v) => _v.count).reduce((cur, prev) => cur + prev, 0)
       return {
         ...item.node,
         key: item.node.slug,

@@ -28,5 +28,5 @@ const I18n = {
 }
 
 export const isZH = location.origin.includes('leetcode-cn')
-let lang = isZH ? 'zh' : 'en'
+const lang = isZH ? 'zh' : 'en'
 export const langEnum = I18n[lang]

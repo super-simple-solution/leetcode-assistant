@@ -1,9 +1,9 @@
 import apiMap from '@/api'
-let isZH = location.origin.includes('leetcode-cn')
+const isZH = location.origin.includes('leetcode-cn')
 
 async function useTag(options) {
   let tags = []
-  let tagRes = await apiMap.discussTags(options)
+  const tagRes = await apiMap.discussTags(options)
   if (!tagRes) return
   if (isZH) {
     tags = tagRes.solutionTags.languageTags

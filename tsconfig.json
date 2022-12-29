@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitThis": true,
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "outDir": "./node_modules/.cache",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "types": ["vite/client"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "auto-imports.d.ts",
+    "src/directive/el-table/adaptive.js",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "types": ["vue", "vue-router", "pinia", "vite-plugin-svg-icons/client", "element-plus/global", "baidu-map-vue3/typings/global"],
+  "typeRoots": [
+    "./node_modules/@types",
+    "./src/types/",
+  ]
+}

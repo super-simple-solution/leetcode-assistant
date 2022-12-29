@@ -2,7 +2,7 @@ import axios from 'axios'
 
 axios.defaults.withCredentials = false
 
-let service = axios.create({
+const service = axios.create({
   baseURL: `${location.origin}/graphql/`,
   timeout: 30000, // 请求超时时间
 })
@@ -18,7 +18,7 @@ let service = axios.create({
 
 service.interceptors.response.use(
   (response) => {
-    let data = response.data
+    const data = response.data
     return data.data
   },
   (error) => {

@@ -1,6 +1,6 @@
 export function injectScript(file, node) {
-  let th = document.getElementsByTagName(node)[0]
-  let s = document.createElement('script')
+  const th = document.getElementsByTagName(node)[0]
+  const s = document.createElement('script')
   s.id = chrome.runtime.id
   s.setAttribute('type', 'text/javascript')
   s.setAttribute('src', file)
@@ -8,7 +8,7 @@ export function injectScript(file, node) {
 }
 
 export function injectScriptByUrl(url) {
-  let s = document.createElement('script')
+  const s = document.createElement('script')
   s.id = chrome.runtime.id
   s.setAttribute('type', 'text/javascript')
   s.setAttribute('src', url)
@@ -20,8 +20,8 @@ export function injectMunual() {
 }
 
 export function injectCSS(file) {
-  let head = document.head
-  let s = document.createElement('link')
+  const head = document.head
+  const s = document.createElement('link')
   s.id = chrome.runtime.id
   s.setAttribute('rel', 'stylesheet')
   s.setAttribute('type', 'text/css')
@@ -31,9 +31,9 @@ export function injectCSS(file) {
 
 export function initEventHandler(contentReq) {
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    let rdata = request.data
-    let tabId = sender.tab && sender.tab.id
-    let handler = contentReq[request.greeting]
+    const rdata = request.data
+    const tabId = sender.tab && sender.tab.id
+    const handler = contentReq[request.greeting]
     if (handler) {
       handler(rdata, sendResponse, tabId)
     }

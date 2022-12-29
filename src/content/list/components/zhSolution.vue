@@ -35,23 +35,24 @@
 </template>
 
 <script setup>
+import { defineProps, defineEmits } from 'vue'
 import { LikeOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import apiMap from '@/api'
 
 import { langEnum } from '../const'
 
 const activeKey = ref([])
-let props = defineProps({
+const props = defineProps({
   curSolutionTitleSlug: String,
   list: Array,
 })
 
 const emit = defineEmits(['set-resolve'])
-let curIndex = ref()
+const curIndex = ref()
 const currentSolutionResolve = (index) => {
   if (index === undefined) return
   curIndex.value = index
-  let item = props.list[index]
+  const item = props.list[index]
   const isExist = item.resolve
   if (!isExist) {
     apiMap.curSolutionResolve({ slug: item.slug }).then((res) => {

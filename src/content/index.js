@@ -6,7 +6,7 @@ import list from './list'
 const locationHref = window.location.href
 
 // unvisible element to mount on
-let hiddenEl = createEle({
+const hiddenEl = createEle({
   tag: 'span',
   class: 'hidden-el',
 })
@@ -16,15 +16,15 @@ const patterns = {
   list: {
     match: /(problemset|problem-list)/,
     handler() {
-      let selector = '[role="rowgroup"], section table tbody'
+      const selector = '[role="rowgroup"], section table tbody'
       let listContainer = getEle(selector)
       // window.addHistoryListener('history', function () {
       listContainer = getEle(selector)
       // domMutation(listContainer, () => {
       console.log('dom change')
-      let nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"],  section table tbody tr'))
+      const nodeList = Array.from(document.querySelectorAll('[role="rowgroup"]>[role="row"],  section table tbody tr'))
       nodeList.forEach((item) => {
-        let parentNode = item.children[3]
+        const parentNode = item.children[3]
         parentNode.classList.add('solution-btn-parent')
         parentNode.appendChild(
           createEle({
@@ -38,11 +38,11 @@ const patterns = {
       // })
       list('.hidden-el')
       listContainer.addEventListener('click', (event) => {
-        let target = event.target
+        const target = event.target
         if (!target.classList.contains('solution-btn')) return
-        let targetItem = target.closest('[role="row"], tbody>tr')
-        let questionName = targetItem.querySelector('a').href.match(/problems\/([^?/]+)/)[1]
-        let questionFullName = targetItem.querySelector('.truncate, td:nth-child(2)').textContent
+        const targetItem = target.closest('[role="row"], tbody>tr')
+        const questionName = targetItem.querySelector('a').href.match(/problems\/([^?/]+)/)[1]
+        const questionFullName = targetItem.querySelector('.truncate, td:nth-child(2)').textContent
         const questionEvent = new CustomEvent('click-question', {
           detail: {
             questionName,
@@ -56,7 +56,9 @@ const patterns = {
   },
   detail: {
     match: '',
-    handler() {},
+    handler() {
+      console.log('detail page')
+    },
   },
 }
 
@@ -76,8 +78,8 @@ const patterns = {
 // }
 
 function matchUrl() {
-  for (let key in patterns) {
-    let curPattern = patterns[key]
+  for (const key in patterns) {
+    const curPattern = patterns[key]
     if (locationHref.match(curPattern.match)) {
       curPattern.handler()
       break

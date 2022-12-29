@@ -9,8 +9,8 @@ export function $$(el, context) {
 }
 
 export function getAttrs(el) {
-  let res = {}
-  for (let key in el.attributes) {
+  const res = {}
+  for (const key in el.attributes) {
     if (isNaN(+key)) {
       res[key] = el.attributes[key].value
     }
@@ -20,16 +20,16 @@ export function getAttrs(el) {
 
 const SI_SYMBOL = ['', 'k', 'M', 'G', 'T', 'P', 'E']
 export function abbreviateNumber(number) {
-  var tier = (Math.log10(number) / 3) | 0
+  const tier = (Math.log10(number) / 3) | 0
   // if zero, we don't need a suffix
   if (tier == 0) return number
 
   // get suffix and determine scale
-  var suffix = SI_SYMBOL[tier]
-  var scale = Math.pow(10, tier * 3)
+  const suffix = SI_SYMBOL[tier]
+  const scale = Math.pow(10, tier * 3)
 
   // scale the number
-  var scaled = number / scale
+  const scaled = number / scale
 
   // format number and add suffix
   return scaled.toFixed(1) + suffix
@@ -37,19 +37,18 @@ export function abbreviateNumber(number) {
 
 export function createEle(option) {
   const { tag, content, class: className } = option
-  let el = document.createElement(tag)
+  const el = document.createElement(tag)
   el.innerText = content || ''
   el.className = className
   return el
 }
 
 export function domMutation(targetNode, cb) {
-  let observer
   const cbFun = debounce(function () {
     cb(...arguments)
     observer.disconnect()
   }, 200)
-  observer = new MutationObserver(cbFun)
+  const observer = new MutationObserver(cbFun)
   const config = { childList: true }
   observer.observe(targetNode, config)
 }
@@ -57,14 +56,13 @@ export function domMutation(targetNode, cb) {
 // https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_debounce
 function debounce(func, wait, immediate) {
   let timeout
-  return function () {
-    let context = this,
-      args = arguments
+  return () => {
+    const args = arguments
     clearTimeout(timeout)
     timeout = setTimeout(function () {
       timeout = null
-      if (!immediate) func.apply(context, args)
+      if (!immediate) func.apply(this, args)
     }, wait)
-    if (immediate && !timeout) func.apply(context, args)
+    if (immediate && !timeout) func.apply(this, args)
   }
 }

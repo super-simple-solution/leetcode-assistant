@@ -97,11 +97,11 @@ import { isZH } from './const'
 
 import { langEnum } from './const'
 
-let metaData = reactive(initData())
+const metaData = reactive(initData())
 
-let spinning = ref(false)
+const spinning = ref(false)
 
-let descVisible = ref(false)
+const descVisible = ref(false)
 
 onMounted(clickListener)
 onBeforeUnmount(() => window.removeEventListener('click-question'))
@@ -135,7 +135,7 @@ function clickListener() {
 }
 // discuss tag
 async function handleTabChange(key) {
-  let { questionName, questionId } = metaData.info
+  const { questionName, questionId } = metaData.info
   if (key === langEnum.tab1.key) {
     if (discussList.value.length) return
     getDiscussList()
@@ -149,7 +149,7 @@ async function handleTabChange(key) {
         questionName,
       })
       .then((res) => {
-        let solution = res.question.solution?.content
+        const solution = res.question.solution?.content
         if (solution) {
           metaData.data.enSolution = parseContent(solution, questionName)
         }
@@ -163,11 +163,11 @@ async function handleTabChange(key) {
 
 function getDiscussList(options = {}) {
   spinning.value = true
-  let { questionName, questionId, tagSlugs, tags } = {
+  const { questionName, questionId, tagSlugs, tags } = {
     ...metaData.info,
     ...options,
   }
-  let skip = (metaData.data.pageNum - 1) * 15
+  const skip = (metaData.data.pageNum - 1) * 15
   let api
   let params
   if (isZH) {
@@ -197,7 +197,7 @@ function discussListCb(data) {
   metaData.data.totalNum = data.totalNum
 }
 
-let selectedTags = ref([])
+const selectedTags = ref([])
 async function tagChange(item, checked) {
   const nextSelectedTags = checked
     ? [...selectedTags.value, item.slug]

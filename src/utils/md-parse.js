@@ -3,7 +3,7 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/default.css'
 import MarkdownIt from 'markdown-it'
 
-let md = new MarkdownIt({
+const md = new MarkdownIt({
   html: true,
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
@@ -66,7 +66,7 @@ export default function (content, questionName) {
   // let matchRes = content.match(tabReg)
   content = md.render(content)
 
-  let katexReg = /\$+([^$]+?)\$+/g
+  const katexReg = /\$+([^$]+?)\$+/g
 
   content = content.replace(katexReg, (_, p1) => {
     return katex.renderToString(p1, {

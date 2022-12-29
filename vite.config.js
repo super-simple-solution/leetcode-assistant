@@ -19,11 +19,6 @@ export default defineConfig({
   output: {
     sourcemap: 'inline',
   },
-  build: {
-    rollupOptions: {
-      input: './manifest.json',
-    },
-  },
   plugins: [
     // visualizer(),
     vue(),

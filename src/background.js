@@ -1,6 +1,6 @@
 import { initEventHandler } from '@/utils/extension-action'
 
-let contentReq = {
+const contentReq = {
   'question-save': questionSave,
 }
 
