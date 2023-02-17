@@ -5,6 +5,8 @@ const contentReq = {
 }
 
 // TODO: 保存至本地
-function questionSave() {}
+function questionSave(data) {
+  console.log('question data', data)
+}
 
 initEventHandler(contentReq)

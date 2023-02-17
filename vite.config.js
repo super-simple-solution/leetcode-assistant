@@ -6,6 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import eslintPlugin from 'vite-plugin-eslint'
+import tailwind from 'tailwindcss'
 import manifest from './manifest.json'
 
 // https://juejin.cn/post/7012446423367024676#heading-12
@@ -50,4 +51,13 @@ export default defineConfig({
       resolvers: [() => null],
     }),
   ],
+  css: {
+    // https://github.com/vitejs/vite/discussions/8216
+    modules: {
+      scopeBehaviour: 'global',
+    },
+    postcss: {
+      plugins: [tailwind()],
+    },
+  },
 })

@@ -10,7 +10,7 @@
             <a-tab-pane :key="langEnum.tab1.key" :tab="langEnum.tab1.tab"></a-tab-pane>
             <a-tab-pane :key="langEnum.tab2.key" :tab="langEnum.tab2.tab"></a-tab-pane>
           </a-tabs>
-          <a-button v-else type="primary" size="small" class="mt-10" @click="showSolution">{{
+          <a-button v-else type="primary" size="small" class="mt-2" @click="showSolution">{{
             langEnum.discuss
           }}</a-button>
         </a-col>
@@ -25,27 +25,32 @@
           <template v-if="!isZH">
             <template v-if="metaData.activeKey == langEnum.tab2.key">
               <template v-if="curEnSolution">
-                <a
-                  class="link-color right"
-                  :href="`/problems/${metaData.info.questionName}/solution`"
-                  target="_blank"
-                  >{{ langEnum.originalLink }}</a
-                >
+                <a-tooltip>
+                  <template #title>{{ langEnum.originalLink }}</template>
+                  <a
+                    class="link-color float-right"
+                    :href="`/problems/${metaData.info.questionName}/solution`"
+                    target="_blank"
+                    ><LinkOutlined
+                  /></a>
+                </a-tooltip>
                 <div v-html="curEnSolution"></div>
               </template>
               <span v-else-if="metaData.data.enSolutionGeted">No solution or Solution locked</span>
             </template>
             <template v-else-if="discussList.length">
               <!-- discuss tag -->
-              Tags:
-              <template v-for="(item, index) in metaData.tagList" :key="index">
-                <a-checkable-tag
-                  :checked="selectedTags.includes(item.slug)"
-                  @change="(checked) => tagChange(item, checked)"
-                >
-                  {{ item.slug }}
-                </a-checkable-tag>
-              </template>
+              <div class="mb-2">
+                Tags:
+                <template v-for="(item, index) in metaData.tagList" :key="index">
+                  <a-checkable-tag
+                    :checked="selectedTags.includes(item.slug)"
+                    @change="(checked) => tagChange(item, checked)"
+                  >
+                    {{ item.slug }}
+                  </a-checkable-tag>
+                </template>
+              </div>
               <en-solution
                 :cur-solution-id="metaData.info.questionId"
                 :cur-solution-title-slug="metaData.info.titleSlug"
@@ -87,6 +92,7 @@
 </template>
 
 <script setup>
+import { LinkOutlined } from '@ant-design/icons-vue'
 import apiMap from '@/api'
 import parseContent from '@/utils/md-parse'
 import ZhSolution from './components/zhSolution.vue'

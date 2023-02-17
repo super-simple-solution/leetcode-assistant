@@ -37,6 +37,7 @@ module.exports = {
         eslintIntegration: true,
         printWidth: 120, // 每行代码长度（默认80）
         endOfLine: 'auto',
+        plugins: [require('prettier-plugin-tailwindcss')],
       },
     ],
     '@typescript-eslint/no-empty-interface': [
