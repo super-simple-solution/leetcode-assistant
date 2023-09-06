@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { crx } from '@crxjs/vite-plugin'
+import zipPack from 'vite-plugin-zip-pack'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -25,11 +26,16 @@ export default defineConfig({
     vue(),
     crx({ manifest }),
     Components({
-      resolvers: [AntDesignVueResolver()],
+      resolvers: [
+        AntDesignVueResolver({
+          importStyle: false,
+        }),
+      ],
       dts: true,
       include: [/\.vue$/, /\.vue\?vue/],
     }),
     eslintPlugin(),
+    zipPack({ outDir: './' }),
     AutoImport({
       // targets to transform
       include: [

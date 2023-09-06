@@ -7,15 +7,6 @@ const service = axios.create({
   timeout: 30000, // 请求超时时间
 })
 
-// service.interceptors.request.use(
-//   config => {
-//     return config
-//   },
-//   error => {
-//     return Promise.reject(error)
-//   }
-// )
-
 service.interceptors.response.use(
   (response) => {
     const data = response.data

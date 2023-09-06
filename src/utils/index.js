@@ -43,26 +43,19 @@ export function createEle(option) {
   return el
 }
 
-export function domMutation(targetNode, cb) {
-  const cbFun = debounce(function () {
-    cb(...arguments)
-    observer.disconnect()
-  }, 200)
-  const observer = new MutationObserver(cbFun)
-  const config = { childList: true }
-  observer.observe(targetNode, config)
-}
+export function observeContainer({ selector, callback, root = 'body' }) {
+  const loadMoreObserver = new MutationObserver(callback)
 
-// https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_debounce
-function debounce(func, wait, immediate) {
-  let timeout
-  return () => {
-    const args = arguments
-    clearTimeout(timeout)
-    timeout = setTimeout(function () {
-      timeout = null
-      if (!immediate) func.apply(this, args)
-    }, wait)
-    if (immediate && !timeout) func.apply(this, args)
+  function mutationInitCallback() {
+    const container = getEle(selector)
+    if (!container) {
+      return
+    }
+    loadMoreObserver.disconnect()
+    loadMoreObserver.observe(container, { childList: true })
   }
+
+  const rootEle = getEle(root)
+  const rootObserver = new MutationObserver(mutationInitCallback)
+  rootObserver.observe(rootEle, { subtree: true, childList: true })
 }
